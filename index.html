@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Chemical Sandbox</title>
+    <title>MX Sandbox</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Load MathJax for beautiful chemical formulas -->
@@ -51,7 +51,6 @@
     <div class="max-w-7xl mx-auto">
         <header class="text-center mb-8">
             <h1 class="text-4xl font-extrabold text-blue-400">MX Sandbox</h1>
-            <p class="text-gray-400 mt-2">Choose your desired experiment below to start.</p>
         </header>
 
         <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -195,6 +194,57 @@
                     return { title, text, colorClass, liquidHeight };
                 }
             },
+
+            // NEW EXPERIMENT: Activity Series
+            activitySeries: {
+                key: 'activitySeries',
+                name: "Activity Series (Single Replacement)",
+                description: "Combine a solid metal with an aqueous salt solution. The reaction occurs only if the solid metal is more **active** (reactive) than the metal in the solution, following the single replacement rule.",
+                options: [
+                    { id: 'solidMetal', label: 'Solid Metal', type: 'select', choices: ['Magnesium (Mg)', 'Zinc (Zn)', 'Copper (Cu)', 'Silver (Ag)'], default: 'Zinc (Zn)' },
+                    { id: 'solutionSalt', label: 'Aqueous Salt Solution', type: 'select', choices: ['Copper(II) Sulfate ($\text{CuSO}_4$)', 'Silver Nitrate ($\text{AgNO}_3$)', 'Zinc Chloride ($\text{ZnCl}_2$)', 'Magnesium Nitrate ($\text{Mg}(\text{NO}_3)_2$)'], default: 'Copper(II) Sulfate ($\text{CuSO}_4$)' }
+                ],
+                getResult: (opts) => {
+                    // Extract symbols from parentheses
+                    const metal = opts.solidMetal.match(/\((.*?)\)/)[1];
+                    const solutionMetal = opts.solutionSalt.match(/\((.*?)\)/)[1].replace(/s$/, ''); // Remove 's' from CuSO4 or similar for cleaner metal ID
+                    
+                    // Simplified Activity Series (Mg > Zn > Cu > Ag). Higher index is less reactive.
+                    const series = ['Mg', 'Zn', 'Cu', 'Ag'];
+
+                    const metalIndex = series.indexOf(metal);
+                    const solutionIndex = series.indexOf(solutionMetal);
+
+                    let title, text, colorClass, liquidHeight = 50;
+
+                    if (metalIndex < solutionIndex) {
+                        // Reaction occurs: More active metal replaces less active metal ion
+                        const newSaltFormula = opts.solutionSalt.replace(solutionMetal, metal);
+                        const reactionEquation = `$$\\text{${metal}} (s) + \\text{${solutionMetal}^{2+}} (aq) \\rightarrow \\text{${solutionMetal}} (s) + \\text{${metal}^{2+}} (aq)$$`;
+                        
+                        title = "Reaction Occurs!";
+                        text = `The solid metal ($\text{${metal}}$) is more reactive than the metal in the solution ($\text{${solutionMetal}}$). The $\text{${solutionMetal}}$ ions are replaced. You would observe the solid $\text{${solutionMetal}}$ depositing and the liquid's color changing due to the formation of $\text{${metal}^{2+}}$ ions. ${reactionEquation}`;
+                        
+                        // Visual effect approximation:
+                        if (solutionMetal === 'Cu') {
+                            // Cu2+ (blue) is replaced by Zn2+ or Mg2+ (colorless)
+                            colorClass = 'bg-gray-400/50 border-gray-300'; // Change from blue to colorless
+                        } else if (solutionMetal === 'Ag') {
+                             // Ag+ (colorless) is replaced, possibly some mild color change if using Fe/Ni, but keeping it simple
+                            colorClass = 'bg-green-500/50 border-green-400'; // Arbitrary color change to show reaction
+                        } else {
+                            colorClass = 'bg-blue-300/50 border-blue-400';
+                        }
+
+                    } else {
+                        title = "No Reaction ($\text{NR}$)";
+                        text = `The solid metal ($\text{${metal}}$) is less active than the metal in the solution ($\text{${solutionMetal}}$). No single replacement reaction will occur. The system remains unchanged.`;
+                        colorClass = 'bg-gray-400/50 border-gray-300'; // Remains original gray/colorless
+                    }
+
+                    return { title, text, colorClass, liquidHeight };
+                }
+            },
         };
 
         let currentExperimentKey = null;
@@ -218,7 +268,8 @@
             experimentList.innerHTML = '';
             Object.values(experiments).forEach(exp => {
                 const button = document.createElement('button');
-                button.className = 'w-full py-2 px-4 rounded-lg text-left bg-gray-600 hover:bg-blue-600 transition-colors duration-200 shadow-md';
+                // Added focus:ring class for better visual feedback on click/focus
+                button.className = 'w-full py-2 px-4 rounded-lg text-left bg-gray-600 hover:bg-blue-600 focus:ring-4 focus:ring-blue-500/50 focus:outline-none transition-colors duration-200 shadow-md';
                 button.dataset.key = exp.key;
                 button.innerHTML = exp.name;
                 button.addEventListener('click', () => selectExperiment(exp.key));
@@ -234,10 +285,12 @@
             currentExperimentKey = key;
             const exp = experiments[key];
 
-            // Update UI state
+            // Update UI state - interpreting "go to another page" as making the controls active/visible
             controlPanel.classList.remove('opacity-50', 'pointer-events-none');
             runButton.classList.remove('pointer-events-none', 'opacity-50');
             runButton.disabled = false;
+            
+            // Update description
             experimentDesc.innerHTML = exp.description;
             
             // Re-render MathJax for the new description
@@ -347,7 +400,13 @@
             
             // 1. Update Beaker Visual
             beakerLiquid.classList.remove(...beakerLiquid.classList);
-            beakerLiquid.classList.add('liquid', result.colorClass || 'bg-gray-400/50 border-gray-300');
+            
+            // Fix applied in previous iteration: Split the class string by spaces.
+            const colorClasses = (result.colorClass || 'bg-gray-400/50 border-gray-300').split(' ');
+
+            // Add 'liquid' class back, plus the split color classes
+            beakerLiquid.classList.add('liquid', ...colorClasses);
+            
             beakerLiquid.style.height = `${result.liquidHeight || 50}%`;
             
             // 2. Update Text Results
@@ -380,4 +439,3 @@
     </script>
 </body>
 </html>
-
