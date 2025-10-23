@@ -75,25 +75,24 @@
                     { id: 'elementSelected', label: 'Element to be Hit', type: 'select', choices: ['Zinc (Zn)', 'Iron (Fe)', 'Aluminum (Al)', 'Copper (Cu)', 'Magnesium (Mg)', 'Nickel (Ni)', 'Iodine (I)'], default: 'Iron (Fe)' },
                 ],
                 getResult: (opts) => {
+                    // This extracts the symbol (e.g., 'Fe')
                     const element = opts.elementSelected.match(/\((.*?)\)/)[1];
                     let title, text;
                     
-                    // Define which elements are malleable (Metals)
+                    // Define which elements are malleable (Metals) using their SYMBOLS
                     const malleableMetals = ['Zn', 'Fe', 'Al', 'Cu', 'Mg', 'Ni'];
-                    const brittleMetals = ['I']
+                    // Define which elements are brittle (Non-metals) using their SYMBOLS
+                    const brittleElements = ['I'];
                     
                     if (malleableMetals.includes(element)) {
                         title = `${element} flattens and bends slightly! `;
-                        // Fixed: Replaced ** with <strong> and </strong>
-                        text = `The element <strong>${element}</strong> is hit and flattens out. Result: <strong>Malleable</strong>.`;
-                    } if (brittleMetals.includes(element)) {
+                        text = `The element <strong>${element}</strong> (a metal) is hit and flattens out, or can be hammered into a sheet. This is due to its metallic bonds allowing atoms to slide past one another. Result: <strong>Malleable</strong>.`;
+                    } else if (brittleElements.includes(element)) {
                         title = `${element} shatters into small pieces! `;
-                        text = `The element <strong>${element}</strong> is hit and shatters into many small pieces. Result: <strong>Brittle</strong>.`;
-
+                        text = `The element <strong>${element}</strong> (a non-metal) is hit and shatters into many small pieces. Non-metals are typically <strong>Brittle</strong>.`;
                     } else {
-                        title = `${element} has no change! `;
-                        // Fixed: Replaced ** with <strong> and </strong>
-                        text = `The element <strong>${element}</strong> is hit and has no difference. Result: <strong>indeterminate</strong>.`;
+                        title = `${element} has an indeterminate reaction.`;
+                        text = `The element <strong>${element}</strong> is hit and has no readily observable change under these simulated conditions. Result: <strong>Indeterminate</strong>.`;
                     }
                     return { title, text }; // No visual beaker properties returned
                 }
@@ -218,7 +217,9 @@
             runButton.disabled = false;
             
             experimentDesc.innerHTML = exp.description;
-            MathJax.typesetPromise([experimentDesc]);
+            if (typeof MathJax !== 'undefined') { // Check added
+                MathJax.typesetPromise([experimentDesc]);
+            }
 
             document.querySelectorAll('#experiment-list button').forEach(btn => {
                 btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
@@ -245,7 +246,11 @@
                 const label = document.createElement('label');
                 label.className = 'block text-sm font-medium text-gray-200 mb-2';
                 label.innerHTML = `${opt.label}: <span id="value-${opt.id}" class="font-bold text-blue-300">${opt.default} ${opt.unit || ''}</span>`;
-                MathJax.typesetPromise([label]);
+                
+                if (typeof MathJax !== 'undefined') { // Check added
+                    MathJax.typesetPromise([label]);
+                }
+                
                 container.appendChild(label);
 
                 if (opt.type === 'slider') {
@@ -281,7 +286,9 @@
 
                     select.onchange = (e) => {
                         document.getElementById(`value-${opt.id}`).innerHTML = e.target.value;
-                        MathJax.typesetPromise([document.getElementById(`value-${opt.id}`)]);
+                        if (typeof MathJax !== 'undefined') { // Check added
+                            MathJax.typesetPromise([document.getElementById(`value-${opt.id}`)]);
+                        }
                     };
                     
                     container.appendChild(select);
@@ -319,21 +326,20 @@
             const options = getOptionValues();
             const result = exp.getResult(options);
             
-            // No beaker updates needed.
-            
             // Update Text Results
             resultTitle.textContent = result.title;
             resultText.innerHTML = result.text;
             
             // Re-render MathJax in results
-            MathJax.typesetPromise([resultText, resultTitle]);
+            if (typeof MathJax !== 'undefined') { // Check added
+                MathJax.typesetPromise([resultText, resultTitle]);
+            }
         }
         
         /**
          * Resets the visual display to default.
          */
         function resetVisuals() {
-            // No beaker updates needed.
             resultTitle.textContent = 'Awaiting Results...';
             resultText.textContent = 'Click \'Run Experiment\' once you have set the parameters to see the outcome.';
         }
@@ -344,7 +350,9 @@
             runButton.addEventListener('click', runExperiment);
             
             // Initial MathJax render for buttons/descriptions that contain LaTeX
-            MathJax.typesetPromise([experimentList, experimentDesc]);
+            if (typeof MathJax !== 'undefined') { // Check added
+                MathJax.typesetPromise([experimentList, experimentDesc]);
+            }
         });
     </script>
 </body>
