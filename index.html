@@ -98,45 +98,14 @@
                 }
             },
 
-            // EXPERIMENT 2: Precipitation Reaction
-            precipitation: {
-                key: 'precipitation',
-                name: "Lead Iodide Precipitation",
-                description: "Mix Lead(II) Nitrate ($\text{Pb}(\text{NO}_3)_2$) with Potassium Iodide ($\text{KI}$). Observe the formation of $\text{PbI}_2$.",
-                options: [
-                    { id: 'concentration', label: 'Reagent Concentration (M)', type: 'slider', min: 0.1, max: 1.0, step: 0.1, default: 0.5, unit: 'M' },
-                    { id: 'temperature', label: 'Temperature', type: 'select', choices: ['Room Temp ($\text{25}^\circ\text{C}$)', 'Cold ($\text{5}^\circ\text{C}$)', 'Hot ($\text{80}^\circ\text{C}$)'], default: 'Room Temp ($\text{25}^\circ\text{C}$)' }
-                ],
-                getResult: (opts) => {
-                    const concentration = opts.concentration;
-                    const temp = opts.temperature;
-                    let title, text; // No colorClass or liquidHeight needed for pure text
-
-                    if (concentration <= 0.3) {
-                        title = "Fine Yellow Precipitate";
-                        text = `At this low concentration, a fine, pale yellow precipitate of Lead Iodide ($\text{PbI}_2$) is visible, making the solution cloudy.`;
-                    } else {
-                        title = "Heavy Yellow Precipitate";
-                        text = `At high concentration, a heavy, bright yellow solid precipitate ($\text{PbI}_2$) forms immediately.`;
-                    }
-
-                    if (temp === 'Hot ($\text{80}^\circ\text{C}$)') {
-                        title += " (Heating Effect)";
-                        text = `Since the solution is hot, the $\text{PbI}_2$ precipitate has dissolved, leaving a clear solution. It would precipitate out as a beautiful golden solid upon cooling.`;
-                    }
-
-                    return { title, text };
-                }
-            },
-
-            // EXPERIMENT 3: Activity Series
+            // EXPERIMENT 2: Activity Series
             activitySeries: {
                 key: 'activitySeries',
                 name: "Activity Series (Single Replacement)",
-                description: "Combine a solid metal with an aqueous salt solution. The reaction occurs only if the solid metal is more <strong>active</strong> (reactive) than the metal in the solution, following the single replacement rule.",
+                description: "Combine a solid metal with an aqueous salt solution.",
                 options: [
-                    { id: 'solidMetal', label: 'Solid Metal', type: 'select', choices: ['Magnesium (Mg)', 'Zinc (Zn)', 'Copper (Cu)', 'Silver (Ag)'], default: 'Zinc (Zn)' },
-                    { id: 'solutionSalt', label: 'Aqueous Salt Solution', type: 'select', choices: ['Copper(II) Sulfate ($\text{CuSO}_4$)', 'Silver Nitrate ($\text{AgNO}_3$)', 'Zinc Chloride ($\text{ZnCl}_2$)', 'Magnesium Nitrate ($\text{Mg}(\text{NO}_3)_2$)'], default: 'Copper(II) Sulfate ($\text{CuSO}_4$)' }
+                    { id: 'solidMetal', label: 'Solid Metal', type: 'select', choices: ['Magnesium (Mg)', 'Zinc (Zn)', 'Copper (Cu)', 'Aluminum (Al)', 'Nickel (Ni)', 'Iron (Fe)'], default: 'Zinc (Zn)' },
+                    { id: 'solutionSalt', label: 'Aqueous Salt Solution', type: 'select', choices: ['AgNO3', 'Al(NO3)3', 'Ca(NO3)2', 'Fe(NO3)2', 'KNO3', 'SnCl2 in HCl', 'Zn(NO3)2', 'Cu(NO3)2'], default: 'AgNO3' }
                 ],
                 getResult: (opts) => {
                     // Extract symbols from parentheses
@@ -153,7 +122,7 @@
                     }
                     
                     // Simplified Activity Series (Mg > Zn > Cu > Ag). Higher index is less reactive.
-                    const series = ['Mg', 'Zn', 'Cu', 'Ag'];
+                    const series = ['Mg', 'Zn', 'Cu', 'Al', 'Ni', 'Fe'];
 
                     const metalIndex = series.indexOf(metal);
                     const solutionIndex = series.indexOf(solutionMetal);
