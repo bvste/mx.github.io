@@ -4,44 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MX Sandbox</title>
-    <!-- Load Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load MathJax for beautiful chemical formulas -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load MathJax for beautiful chemical formulas --><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-        /* Custom CSS for the Lab Aesthetic */
+        /* Custom CSS for the Lab Aesthetic - Beaker styles removed */
         :root {
             --lab-bg: #1f2937; /* Gray-800 equivalent */
-            --beaker-border: #374151; /* Gray-700 equivalent */
-            --beaker-liquid: #6b7280; /* Gray-500 equivalent */
         }
         body {
             background-color: var(--lab-bg);
             font-family: 'Inter', sans-serif;
         }
-        .beaker {
-            width: 100%;
-            max-width: 300px;
-            height: 350px;
-            position: relative;
-            border: 4px solid var(--beaker-border);
-            border-top: none;
-            border-radius: 0 0 40px 40px;
-            background: linear-gradient(to bottom, transparent 80%, rgba(255, 255, 255, 0.05) 100%);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-            margin: 0 auto;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column-reverse;
-        }
-        .liquid {
-            width: 100%;
-            transition: height 0.5s ease-in-out, background-color 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
-            border-top: 4px solid rgba(255, 255, 255, 0.2);
-        }
         /* Style for MathJax elements to ensure they are visible on dark background */
-        .beaker-text .mjx-chtml {
+        .results-output .mjx-chtml {
             color: #d1d5db !important; /* light gray */
         }
     </style>
@@ -50,48 +26,36 @@
 
     <div class="max-w-7xl mx-auto">
         <header class="text-center mb-8">
-            <h1 class="text-4xl font-extrabold text-blue-400">MX Sandbox</h1>
+            <h1 class="text-4xl font-extrabold text-blue-400">MX Sandbox 🧪</h1>
+            <p class="text-gray-400 mt-2">Design your experiment and observe the simulated results.</p>
         </header>
 
         <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-            <!-- Panel 1: Experiment Selection -->
-            <div id="selection-panel" class="lg:col-span-1 bg-gray-700 p-6 rounded-xl shadow-2xl h-fit">
+            <!-- Panel 1: Experiment Selection --><div id="selection-panel" class="lg:col-span-1 bg-gray-700 p-6 rounded-xl shadow-2xl h-fit">
                 <h2 class="text-2xl font-semibold mb-4 text-white border-b border-gray-600 pb-2">1. Choose Experiment</h2>
                 <div id="experiment-list" class="space-y-3">
-                    <!-- Experiment buttons will be dynamically inserted here -->
-                </div>
+                    <!-- Experiment buttons will be dynamically inserted here --></div>
             </div>
 
-            <!-- Panel 2: Controls & Options -->
-            <div id="control-panel" class="lg:col-span-1 bg-gray-700 p-6 rounded-xl shadow-2xl h-fit transition-opacity duration-300 opacity-50 pointer-events-none">
+            <!-- Panel 2: Controls & Options --><div id="control-panel" class="lg:col-span-1 bg-gray-700 p-6 rounded-xl shadow-2xl h-fit transition-opacity duration-300 opacity-50 pointer-events-none">
                 <h2 class="text-2xl font-semibold mb-4 text-white border-b border-gray-600 pb-2">2. Set Conditions</h2>
                 <p id="experiment-desc" class="text-sm text-gray-400 mb-6 italic">Select an experiment to see its description and controls.</p>
 
                 <div id="options-container" class="space-y-6">
-                    <!-- Dynamic controls (sliders/selects) will be inserted here -->
-                </div>
+                    <!-- Dynamic controls (sliders/selects) will be inserted here --></div>
 
                 <button id="run-button" class="w-full mt-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors duration-200 shadow-md shadow-blue-500/50 pointer-events-none opacity-50" disabled>
                     Run Experiment
                 </button>
             </div>
 
-            <!-- Panel 3: Visual Output (Beaker & Results) -->
-            <div class="lg:col-span-1 bg-gray-800 p-6 rounded-xl shadow-2xl flex flex-col items-center justify-between">
+            <!-- Panel 3: Pure Text Observation --><div class="lg:col-span-1 bg-gray-800 p-6 rounded-xl shadow-2xl flex flex-col items-center justify-start">
                 <h2 class="text-2xl font-semibold mb-4 text-white border-b border-gray-700 pb-2 w-full text-center">3. Observation</h2>
 
-                <!-- The Beaker/Visual Lab -->
-                <div class="beaker mt-4 mb-8">
-                    <div id="beaker-liquid" class="liquid" style="height: 0%; background-color: var(--beaker-liquid);">
-                        <!-- Precipitation/visual effects can be added here -->
-                    </div>
-                </div>
-
-                <!-- Textual Results -->
-                <div id="results-output" class="w-full p-4 bg-gray-900 rounded-lg shadow-inner border border-gray-700">
-                    <h3 id="result-title" class="text-xl font-bold text-gray-400">Awaiting Results...</h3>
-                    <p id="result-text" class="text-gray-400 mt-2 text-sm italic">
+                <!-- Textual Results - no beaker, just direct output --><div id="results-output" class="w-full p-4 bg-gray-900 rounded-lg shadow-inner border border-gray-700 min-h-[200px] flex flex-col justify-center">
+                    <h3 id="result-title" class="text-xl font-bold text-gray-400 text-center">Awaiting Results...</h3>
+                    <p id="result-text" class="text-gray-400 mt-4 text-sm italic text-center">
                         Click 'Run Experiment' once you have set the parameters to see the outcome.
                     </p>
                 </div>
@@ -102,61 +66,36 @@
     <script>
         // --- CORE EXPERIMENT DATA ---
         const experiments = {
-            // EXPERIMENT 1: Acid-Base Neutralization
-            acidBase: {
-                key: 'acidBase',
-                name: "Acid-Base Neutralization (Titration)",
-                description: "Mix a strong acid ($\text{HCl}$) with a strong base ($\text{NaOH}$). The $\text{pH}$ will change based on the volumes you mix.",
+            // EXPERIMENT 1: Malleability Hammer Test (NEW)
+            hammerTest: {
+                key: 'hammerTest',
+                name: "Malleability Hammer Test",
+                description: "Simulate hitting a solid element with a hammer. Observe whether the material is <strong>malleable</strong> or has <strong>no change</strong>",
                 options: [
-                    { id: 'hclAmount', label: '$\text{HCl}$ (Acid) Volume (mL)', type: 'slider', min: 10, max: 100, default: 50, step: 10, unit: 'mL' },
-                    { id: 'naohAmount', label: '$\text{NaOH}$ (Base) Volume (mL)', type: 'slider', min: 10, max: 100, default: 50, step: 10, unit: 'mL' },
-                    { id: 'indicator', label: 'Indicator Used', type: 'select', choices: ['None', 'Phenolphthalein', 'Universal Indicator'], default: 'Universal Indicator' }
+                    { id: 'elementSelected', label: 'Element to be Hit', type: 'select', choices: ['Zinc (Zn)', 'Iron (Fe)', 'Aluminum (Al)', 'Copper (Cu)', 'Magnesium (Mg)', 'Nickel (Ni)', 'Iodine (I)'], default: 'Iron (Fe)' },
                 ],
                 getResult: (opts) => {
-                    const hcl = opts.hclAmount;
-                    const naoh = opts.naohAmount;
-                    const totalVolume = hcl + naoh;
-                    const liquidHeight = (totalVolume / 200) * 100; // Total max volume 200mL
-                    let title, text, colorClass;
+                    const element = opts.elementSelected.match(/\((.*?)\)/)[1];
+                    let title, text;
+                    
+                    // Define which elements are malleable (Metals)
+                    const malleableMetals = ['Zinc (Zn)', 'Iron (Fe)', 'Aluminum (Al)', 'Copper (Cu)', 'Magnesium (Mg)', 'Nickel (Ni)'];
+                    const brittleMetals = ['Iodine (I)']
+                    
+                    if (malleableMetals.includes(element)) {
+                        title = `${element} flattens and bends slightly! `;
+                        // Fixed: Replaced ** with <strong> and </strong>
+                        text = `The element <strong>${element}</strong> is hit and flattens out. Result: <strong>Malleable</strong>.`;
+                    if (brittleMetals.includes(element)) {
+                        title = `${element} shatters into small pieces! `;
+                        text = `The element <strong>${element}</strong> is hit and shatters into many small pieces. Result: <strong>Brittle</strong>.`;
 
-                    if (hcl === naoh) {
-                        title = "Perfect Neutralization! ($\text{pH} = 7$)";
-                        text = `You mixed ${hcl}mL of acid and ${naoh}mL of base. The solution is perfectly neutral.`;
-                        if (opts.indicator === 'Universal Indicator') {
-                            text += ' The indicator turns a classic green.';
-                            colorClass = 'bg-green-500/50 border-green-400';
-                        } else if (opts.indicator === 'Phenolphthalein') {
-                            text += ' Phenolphthalein remains colorless.';
-                            colorClass = 'bg-gray-400/50 border-gray-300';
-                        } else {
-                            colorClass = 'bg-gray-400/50 border-gray-300';
-                        }
-                    } else if (hcl > naoh) {
-                        title = `Acidic Solution ($\text{pH} < 7$)`;
-                        text = `You used more acid (Excess volume: ${hcl - naoh}mL). The solution is acidic.`;
-                        if (opts.indicator === 'Universal Indicator') {
-                            text += ' The indicator turns red or orange.';
-                            colorClass = 'bg-red-600/50 border-red-500';
-                        } else if (opts.indicator === 'Phenolphthalein') {
-                            text += ' Phenolphthalein remains colorless.';
-                            colorClass = 'bg-gray-400/50 border-gray-300';
-                        } else {
-                            colorClass = 'bg-gray-400/50 border-gray-300';
-                        }
-                    } else { // naoh > hcl
-                        title = `Basic Solution ($\text{pH} > 7$)`;
-                        text = `You used more base (Excess volume: ${naoh - hcl}mL). The solution is basic.`;
-                        if (opts.indicator === 'Universal Indicator') {
-                            text += ' The indicator turns blue or purple.';
-                            colorClass = 'bg-purple-600/50 border-purple-500';
-                        } else if (opts.indicator === 'Phenolphthalein') {
-                            text += ' Phenolphthalein turns bright pink!';
-                            colorClass = 'bg-pink-500/50 border-pink-400';
-                        } else {
-                            colorClass = 'bg-gray-400/50 border-gray-300';
-                        }
+                    } else {
+                        title = `${element} has no change! `;
+                        // Fixed: Replaced ** with <strong> and </strong>
+                        text = `The element <strong>${element}</strong> is hit and has no difference. Result: <strong>indeterminate</strong>.`;
                     }
-                    return { title, text, colorClass, liquidHeight };
+                    return { title, text }; // No visual beaker properties returned
                 }
             },
 
@@ -172,34 +111,30 @@
                 getResult: (opts) => {
                     const concentration = opts.concentration;
                     const temp = opts.temperature;
-                    let title, text, colorClass;
-                    const liquidHeight = 50; // Constant liquid height for this experiment
+                    let title, text; // No colorClass or liquidHeight needed for pure text
 
                     if (concentration <= 0.3) {
                         title = "Fine Yellow Precipitate";
                         text = `At this low concentration, a fine, pale yellow precipitate of Lead Iodide ($\text{PbI}_2$) is visible, making the solution cloudy.`;
-                        colorClass = 'bg-yellow-300/30 border-yellow-300';
                     } else {
                         title = "Heavy Yellow Precipitate";
                         text = `At high concentration, a heavy, bright yellow solid precipitate ($\text{PbI}_2$) forms immediately.`;
-                        colorClass = 'bg-yellow-500/50 border-yellow-500';
                     }
 
                     if (temp === 'Hot ($\text{80}^\circ\text{C}$)') {
                         title += " (Heating Effect)";
                         text = `Since the solution is hot, the $\text{PbI}_2$ precipitate has dissolved, leaving a clear solution. It would precipitate out as a beautiful golden solid upon cooling.`;
-                        colorClass = 'bg-orange-300/50 border-orange-400';
                     }
 
-                    return { title, text, colorClass, liquidHeight };
+                    return { title, text };
                 }
             },
 
-            // NEW EXPERIMENT: Activity Series
+            // EXPERIMENT 3: Activity Series
             activitySeries: {
                 key: 'activitySeries',
                 name: "Activity Series (Single Replacement)",
-                description: "Combine a solid metal with an aqueous salt solution. The reaction occurs only if the solid metal is more **active** (reactive) than the metal in the solution, following the single replacement rule.",
+                description: "Combine a solid metal with an aqueous salt solution. The reaction occurs only if the solid metal is more <strong>active</strong> (reactive) than the metal in the solution, following the single replacement rule.",
                 options: [
                     { id: 'solidMetal', label: 'Solid Metal', type: 'select', choices: ['Magnesium (Mg)', 'Zinc (Zn)', 'Copper (Cu)', 'Silver (Ag)'], default: 'Zinc (Zn)' },
                     { id: 'solutionSalt', label: 'Aqueous Salt Solution', type: 'select', choices: ['Copper(II) Sulfate ($\text{CuSO}_4$)', 'Silver Nitrate ($\text{AgNO}_3$)', 'Zinc Chloride ($\text{ZnCl}_2$)', 'Magnesium Nitrate ($\text{Mg}(\text{NO}_3)_2$)'], default: 'Copper(II) Sulfate ($\text{CuSO}_4$)' }
@@ -207,7 +142,16 @@
                 getResult: (opts) => {
                     // Extract symbols from parentheses
                     const metal = opts.solidMetal.match(/\((.*?)\)/)[1];
-                    const solutionMetal = opts.solutionSalt.match(/\((.*?)\)/)[1].replace(/s$/, ''); // Remove 's' from CuSO4 or similar for cleaner metal ID
+                    // Removing the salt formula part to isolate the metal symbol
+                    const solutionSaltMatch = opts.solutionSalt.match(/\((.*?)\)/);
+                    let solutionMetal = '';
+                    if (solutionSaltMatch && solutionSaltMatch[1]) {
+                        // Extracting metal from formula like CuSO4
+                        if (opts.solutionSalt.includes('CuSO')) solutionMetal = 'Cu';
+                        else if (opts.solutionSalt.includes('AgNO')) solutionMetal = 'Ag';
+                        else if (opts.solutionSalt.includes('ZnCl')) solutionMetal = 'Zn';
+                        else if (opts.solutionSalt.includes('Mg(NO')) solutionMetal = 'Mg';
+                    }
                     
                     // Simplified Activity Series (Mg > Zn > Cu > Ag). Higher index is less reactive.
                     const series = ['Mg', 'Zn', 'Cu', 'Ag'];
@@ -215,34 +159,19 @@
                     const metalIndex = series.indexOf(metal);
                     const solutionIndex = series.indexOf(solutionMetal);
 
-                    let title, text, colorClass, liquidHeight = 50;
+                    let title, text; // No colorClass or liquidHeight for pure text
 
                     if (metalIndex < solutionIndex) {
                         // Reaction occurs: More active metal replaces less active metal ion
-                        const newSaltFormula = opts.solutionSalt.replace(solutionMetal, metal);
                         const reactionEquation = `$$\\text{${metal}} (s) + \\text{${solutionMetal}^{2+}} (aq) \\rightarrow \\text{${solutionMetal}} (s) + \\text{${metal}^{2+}} (aq)$$`;
                         
                         title = "Reaction Occurs!";
                         text = `The solid metal ($\text{${metal}}$) is more reactive than the metal in the solution ($\text{${solutionMetal}}$). The $\text{${solutionMetal}}$ ions are replaced. You would observe the solid $\text{${solutionMetal}}$ depositing and the liquid's color changing due to the formation of $\text{${metal}^{2+}}$ ions. ${reactionEquation}`;
-                        
-                        // Visual effect approximation:
-                        if (solutionMetal === 'Cu') {
-                            // Cu2+ (blue) is replaced by Zn2+ or Mg2+ (colorless)
-                            colorClass = 'bg-gray-400/50 border-gray-300'; // Change from blue to colorless
-                        } else if (solutionMetal === 'Ag') {
-                             // Ag+ (colorless) is replaced, possibly some mild color change if using Fe/Ni, but keeping it simple
-                            colorClass = 'bg-green-500/50 border-green-400'; // Arbitrary color change to show reaction
-                        } else {
-                            colorClass = 'bg-blue-300/50 border-blue-400';
-                        }
-
                     } else {
                         title = "No Reaction ($\text{NR}$)";
                         text = `The solid metal ($\text{${metal}}$) is less active than the metal in the solution ($\text{${solutionMetal}}$). No single replacement reaction will occur. The system remains unchanged.`;
-                        colorClass = 'bg-gray-400/50 border-gray-300'; // Remains original gray/colorless
                     }
-
-                    return { title, text, colorClass, liquidHeight };
+                    return { title, text };
                 }
             },
         };
@@ -255,7 +184,7 @@
         const optionsContainer = document.getElementById('options-container');
         const experimentDesc = document.getElementById('experiment-desc');
         const runButton = document.getElementById('run-button');
-        const beakerLiquid = document.getElementById('beaker-liquid');
+        // Beaker liquid element is no longer needed
         const resultTitle = document.getElementById('result-title');
         const resultText = document.getElementById('result-text');
 
@@ -268,7 +197,6 @@
             experimentList.innerHTML = '';
             Object.values(experiments).forEach(exp => {
                 const button = document.createElement('button');
-                // Added focus:ring class for better visual feedback on click/focus
                 button.className = 'w-full py-2 px-4 rounded-lg text-left bg-gray-600 hover:bg-blue-600 focus:ring-4 focus:ring-blue-500/50 focus:outline-none transition-colors duration-200 shadow-md';
                 button.dataset.key = exp.key;
                 button.innerHTML = exp.name;
@@ -285,18 +213,13 @@
             currentExperimentKey = key;
             const exp = experiments[key];
 
-            // Update UI state - interpreting "go to another page" as making the controls active/visible
             controlPanel.classList.remove('opacity-50', 'pointer-events-none');
             runButton.classList.remove('pointer-events-none', 'opacity-50');
             runButton.disabled = false;
             
-            // Update description
             experimentDesc.innerHTML = exp.description;
-            
-            // Re-render MathJax for the new description
             MathJax.typesetPromise([experimentDesc]);
 
-            // Highlight selected button
             document.querySelectorAll('#experiment-list button').forEach(btn => {
                 btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
                 btn.classList.add('bg-gray-600', 'hover:bg-blue-600');
@@ -356,7 +279,6 @@
                         select.appendChild(option);
                     });
 
-                    // Update label on change for select
                     select.onchange = (e) => {
                         document.getElementById(`value-${opt.id}`).innerHTML = e.target.value;
                         MathJax.typesetPromise([document.getElementById(`value-${opt.id}`)]);
@@ -380,7 +302,6 @@
             exp.options.forEach(opt => {
                 const element = document.getElementById(opt.id);
                 if (element.type === 'range') {
-                    // For sliders, parse as number (float if step is not 1)
                     values[opt.id] = opt.step && opt.step.toString().includes('.') ? parseFloat(element.value) : parseInt(element.value, 10);
                 } else if (element.tagName === 'SELECT') {
                     values[opt.id] = element.value;
@@ -398,22 +319,13 @@
             const options = getOptionValues();
             const result = exp.getResult(options);
             
-            // 1. Update Beaker Visual
-            beakerLiquid.classList.remove(...beakerLiquid.classList);
+            // No beaker updates needed.
             
-            // Fix applied in previous iteration: Split the class string by spaces.
-            const colorClasses = (result.colorClass || 'bg-gray-400/50 border-gray-300').split(' ');
-
-            // Add 'liquid' class back, plus the split color classes
-            beakerLiquid.classList.add('liquid', ...colorClasses);
-            
-            beakerLiquid.style.height = `${result.liquidHeight || 50}%`;
-            
-            // 2. Update Text Results
+            // Update Text Results
             resultTitle.textContent = result.title;
             resultText.innerHTML = result.text;
             
-            // 3. Re-render MathJax in results
+            // Re-render MathJax in results
             MathJax.typesetPromise([resultText, resultTitle]);
         }
         
@@ -421,9 +333,7 @@
          * Resets the visual display to default.
          */
         function resetVisuals() {
-            beakerLiquid.classList.remove(...beakerLiquid.classList);
-            beakerLiquid.classList.add('liquid', 'bg-gray-400/50', 'border-gray-300');
-            beakerLiquid.style.height = `0%`;
+            // No beaker updates needed.
             resultTitle.textContent = 'Awaiting Results...';
             resultText.textContent = 'Click \'Run Experiment\' once you have set the parameters to see the outcome.';
         }
