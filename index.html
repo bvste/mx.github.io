@@ -79,14 +79,14 @@
                     let title, text;
                     
                     // Define which elements are malleable (Metals)
-                    const malleableMetals = ['Zinc (Zn)', 'Iron (Fe)', 'Aluminum (Al)', 'Copper (Cu)', 'Magnesium (Mg)', 'Nickel (Ni)'];
-                    const brittleMetals = ['Iodine (I)']
+                    const malleableMetals = ['Zn', 'Fe', 'Al', 'Cu', 'Mg', 'Ni'];
+                    const brittleMetals = ['I']
                     
                     if (malleableMetals.includes(element)) {
                         title = `${element} flattens and bends slightly! `;
                         // Fixed: Replaced ** with <strong> and </strong>
                         text = `The element <strong>${element}</strong> is hit and flattens out. Result: <strong>Malleable</strong>.`;
-                    if (brittleMetals.includes(element)) {
+                    } if (brittleMetals.includes(element)) {
                         title = `${element} shatters into small pieces! `;
                         text = `The element <strong>${element}</strong> is hit and shatters into many small pieces. Result: <strong>Brittle</strong>.`;
 
