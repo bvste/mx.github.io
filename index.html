@@ -99,120 +99,64 @@
             },
 
             // EXPERIMENT 2: Activity Series
-activitySeries: {
-    key: 'activitySeries',
-    name: "Activity Series (Single Replacement)",
-    description: "Combine a solid metal with an aqueous salt solution.",
+            activitySeries: {
+                key: 'activitySeries',
+                name: "Activity Series (Single Replacement)",
+                description: "Combine a solid metal with an aqueous salt solution.",
+                options: [
+                    {id: 'solidMetal', label: 'Solid Metal', type: 'select', choices: ['Magnesium (Mg)', 'Aluminum (Al)', 'Zinc (Zn)', 'Iron (Fe)', 'Nickel (Ni)', 'Copper (Cu)'], default: 'Zinc (Zn)'},
+                    {id: 'solutionSalt', label: 'Aqueous Salt Solution', type: 'select', choices: ['AgNO3', 'Cu(NO3)2', 'Zn(NO3)2', 'Fe(NO3)2', 'Al(NO3)3', 'Ca(NO3)2', 'KNO3', 'SnCl2'], default: 'AgNO3'}
+                ],
+                getResult: (opts) => {
+            // Extract solid metal symbol (from "Zinc (Zn)")
+            const solidMetal = opts.solidMetal.match(/\((.*?)\)/)[1];
+            // Map solution salts to metal ions
+            const saltToMetal = {
+                AgNO3: 'Ag',
+                'Cu(NO3)2': 'Cu',
+                'Zn(NO3)2': 'Zn',
+                'Fe(NO3)2': 'Fe',
+                'Al(NO3)3': 'Al',
+                'Ca(NO3)2': 'Ca',
+                KNO3: 'K',
+                SnCl2: 'Sn'
+            };
 
-    options: [
-        {
-            id: 'solidMetal',
-            label: 'Solid Metal',
-            type: 'select',
-            choices: [
-                'Magnesium (Mg)',
-                'Aluminum (Al)',
-                'Zinc (Zn)',
-                'Iron (Fe)',
-                'Nickel (Ni)',
-                'Copper (Cu)'
-            ],
-            default: 'Zinc (Zn)'
-        },
-        {
-            id: 'solutionSalt',
-            label: 'Aqueous Salt Solution',
-            type: 'select',
-            choices: [
-                'AgNO3',
-                'Cu(NO3)2',
-                'Zn(NO3)2',
-                'Fe(NO3)2',
-                'Al(NO3)3',
-                'Ca(NO3)2',
-                'KNO3',
-                'SnCl2'
-            ],
-            default: 'AgNO3'
-        }
-    ],
+            const solutionMetal = saltToMetal[opts.solutionSalt];
 
-    getResult: (opts) => {
-        // Extract solid metal symbol (from "Zinc (Zn)")
-        const solidMetal = opts.solidMetal.match(/\((.*?)\)/)[1];
+            // Simplified but correct activity series (most → least reactive)
+            const activitySeries = ['K', 'Ca', 'Mg', 'Al', 'Zn', 'Fe', 'Ni', 'Sn', 'Cu', 'Ag'];
+            const solidIndex = activitySeries.indexOf(solidMetal);
+            const solutionIndex = activitySeries.indexOf(solutionMetal);
 
-        // Map solution salts to metal ions
-        const saltToMetal = {
-            AgNO3: 'Ag',
-            'Cu(NO3)2': 'Cu',
-            'Zn(NO3)2': 'Zn',
-            'Fe(NO3)2': 'Fe',
-            'Al(NO3)3': 'Al',
-            'Ca(NO3)2': 'Ca',
-            KNO3: 'K',
-            SnCl2: 'Sn'
-        };
+            let title, text;
 
-        const solutionMetal = saltToMetal[opts.solutionSalt];
+            // Safety check
+            if (solidIndex === -1 || solutionIndex === -1) {
+                title = "Error";
+                text = "Unable to determine reactivity due to invalid selection.";
+                return { title, text };
+            }
 
-        // Simplified but correct activity series (most → least reactive)
-        const activitySeries = [
-            'K',
-            'Ca',
-            'Mg',
-            'Al',
-            'Zn',
-            'Fe',
-            'Ni',
-            'Sn',
-            'Cu',
-            'Ag'
-        ];
+            // Same metal → no reaction
+            if (solidMetal === solutionMetal) {
+                title = "No Reaction (NR)";
+                text = "The solid metal and the metal ion in solution are the same (${solidMetal}). No single replacement reaction occurs.";
+                return { title, text };
+            }
 
-        const solidIndex = activitySeries.indexOf(solidMetal);
-        const solutionIndex = activitySeries.indexOf(solutionMetal);
-
-        let title, text;
-
-        // Safety check
-        if (solidIndex === -1 || solutionIndex === -1) {
-            title = "Error";
-            text = "Unable to determine reactivity due to invalid selection.";
+            // Reaction condition
+            if (solidIndex < solutionIndex) {
+                title = "Reaction Occurs!";
+                text = "The solid metal (${solidMetal}) is higher in the activity series than the metal ion in solution (${solutionMetal})."
+            }
+            else {
+            title = "No Reaction (NR)";
+            text = "The solid metal (${solidMetal}) is lower in the activity series than the metal ion in solution (${solutionMetal}). Because it is less reactive, no single replacement reaction occurs.";
+            }
             return { title, text };
         }
-
-        // Same metal → no reaction
-        if (solidMetal === solutionMetal) {
-            title = "No Reaction (NR)";
-            text = `The solid metal and the metal ion in solution are the same (${solidMetal}). No single replacement reaction occurs.`;
-            return { title, text };
-        }
-
-        // Reaction condition
-        if (solidIndex < solutionIndex) {
-            title = "Reaction Occurs!";
-
-            text = `
-The solid metal (${solidMetal}) is higher in the activity series than the metal ion in solution (${solutionMetal}).
-
-As a result, ${solidMetal} displaces ${solutionMetal} from the aqueous solution.
-
-You would observe:
-• Formation of solid ${solutionMetal} metal  
-• A change in solution appearance due to ${solidMetal} ions entering solution
-`;
-        } else {
-            title = "No Reaction (NR)";
-            text = `
-The solid metal (${solidMetal}) is lower in the activity series than the metal ion in solution (${solutionMetal}).
-
-Because it is less reactive, no single replacement reaction occurs.
-`;
-        }
-
-        return { title, text };
     }
-}
         let currentExperimentKey = null;
 
         // --- DOM ELEMENTS ---
