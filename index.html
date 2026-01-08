@@ -156,7 +156,36 @@
             }
             return { title, text };
                     }
-            }
+            },
+            
+             // EXPERIMENT 3: Water Testing
+                waterTest: {
+                key: 'waterTest',
+                name: "Water Test",
+                description: "Sink a selected element in water",
+                options: [
+                    { id: 'elementSelected', label: 'Element to be Sunk', type: 'select', choices: ['Zinc (Zn)', 'Iron (Fe)', 'Aluminum (Al)', 'Copper (Cu)', 'Magnesium (Mg)', 'Nickel (Ni)', 'Iodine (I)'], default: 'Zinc (Zn)' },
+                ],
+                getResult: (opts) => {
+                    // This extracts the symbol (e.g., 'Fe')
+                    const element = opts.elementSelected.match(/\((.*?)\)/)[1];
+                    let title, text;
+                    
+                    // Define which elements are malleable (Metals) using their SYMBOLS
+                    const nonreactiveMetals = ['Zn', 'Fe', 'Al', 'Cu', 'Mg', 'Ni'];
+                    // Define which elements are brittle (Non-metals) using their SYMBOLS
+                    const nonmetalElements = ['I'];
+                    
+                    if (nonreactiveMetals.includes(element)) {
+                        title = `${element} sinks! `;
+                        text = `The element <strong>${element}</strong>  sank in water for 3 days remained unchanged visually.`;
+                    } else if (nonmetalElements.includes(element)) {
+                        title = `${element} sinks! `;
+                        text = `The element <strong>${element}</strong> solution turned light yellow after 1 minute, dark yellow/brown after 1 day! `;
+                    } 
+                    return { title, text }; // No visual beaker properties returned
+                }
+            }  
         }
     
         let currentExperimentKey = null;
