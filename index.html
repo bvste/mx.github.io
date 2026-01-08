@@ -66,7 +66,7 @@
     <script>
         // --- CORE EXPERIMENT DATA ---
         const experiments = {
-            // EXPERIMENT 1: Malleability Hammer Test (NEW)
+            // EXPERIMENT 1: Malleability Hammer Test
             hammerTest: {
                 key: 'hammerTest',
                 name: "Malleability Hammer Test",
@@ -155,8 +155,36 @@
             text = "The solid metal (${solidMetal}) is lower in the activity series than the metal ion in solution (${solutionMetal}). No single replacement reaction occurs.";
             }
             return { title, text };
-        }
-    }
+                    }
+            }
+            
+            // EXPERIMENT 3: Water Testing
+            waterTesting: {
+                key: 'waterTesting',
+                name: "Water Testing",
+                description: "Drop a piece of the element into water, and observe for 3 days",
+                options: [
+                    {id: 'solidElements', label: 'Solid Metal', type: 'select', choices: ['Magnesium (Mg)', 'Aluminum (Al)', 'Zinc (Zn)', 'Iron (Fe)', 'Nickel (Ni)', 'Copper (Cu)', 'Iodine (I)'], default: 'Zinc (Zn)'},
+                ],
+                 getResult: (opts) => {
+                    // This extracts the symbol (e.g., 'Fe')
+                    const element = opts.elementSelected.match(/\((.*?)\)/)[1];
+                    let title, text;
+                    
+                    // Define which elements are malleable (Metals) using their SYMBOLS
+                    const metals = ['Zn', 'Fe', 'Al', 'Cu', 'Mg', 'Ni'];
+                    // Define which elements are brittle (Non-metals) using their SYMBOLS
+                    const nonmetals = ['I'];
+                    
+                    if (metals.includes(element)) {
+                        title = `${element} flattens and bends slightly! `;
+                        text = `The element <strong>${element}</strong> (a metal) is hit and flattens out, or can be hammered into a sheet. This is due to its metallic bonds allowing atoms to slide past one another. Result: <strong>Malleable</strong>.`;
+                    } else if (nonmetals.includes(element)) {
+                        title = `${element} shatters into small pieces! `;
+                        text = `The element <strong>${element}</strong> (a non-metal) is hit and shatters into many small pieces. Non-metals are typically <strong>Brittle</strong>.`;
+                    } 
+                    return { title, text }; // No visual beaker properties returned
+                }
         }
                 
         let currentExperimentKey = null;
