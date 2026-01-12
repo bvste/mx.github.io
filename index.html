@@ -154,7 +154,36 @@
                     } 
                     return { title, text }; // No visual beaker properties returned
                 }
-            }   
+            },
+            // EXPERIMENT 4: MELTING
+                meltingTest: {
+                key: 'meltingTest',
+                name: "Crucible, Bunsen burner, matches",
+                description: "Use a crucible, bunsen burner, and matches to heat up the element.",
+                options: [
+                    { id: 'elementSelected', label: 'Element to be Melted', type: 'select', choices: ['Zinc (Zn)', 'Iron (Fe)', 'Aluminum (Al)', 'Copper (Cu)', 'Magnesium (Mg)', 'Nickel (Ni)', 'Iodine (I)'], default: 'Zinc (Zn)' },
+                ],
+
+                getResult: (opts) => {
+                // This extracts the symbol (e.g., 'Fe')
+                    const element = opts.elementSelected.match(/\((.*?)\)/)[1];
+                    let title, text;
+                    
+                    // Define which elements melt using their SYMBOLS
+                    const nonreactiveMetals = ['Zn', 'Fe', 'Al', 'Cu', 'Mg', 'Ni'];
+                    // Define which elements don't melt using their SYMBOLS
+                    const nonmetalElements = ['I'];
+
+                    if (nonreactiveMetals.includes(element)) {
+                        title = `${element} sinks! `;
+                        text = `The element <strong>${element}</strong> melted in 5 minutes.`;
+                    } else if (nonmetalElements.includes(element)) {
+                        title = `${element} created toxic gas! `;
+                        text = `<strong>Dark purple gas</strong> started flowing out, and everyone started coughing. Dr. Mellows had to evacuate the class due to the toxicity. `;
+                    } 
+                    return { title, text }; // No visual beaker properties returned
+                }
+            }
         };
 
         let currentExperimentKey = null;
