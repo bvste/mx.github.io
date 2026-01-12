@@ -4,21 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MX Sandbox</title>
-    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load MathJax for beautiful chemical formulas --><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-        /* Custom CSS for the Lab Aesthetic - Beaker styles removed */
         :root {
-            --lab-bg: #1f2937; /* Gray-800 equivalent */
+            --lab-bg: #1f2937;
         }
         body {
             background-color: var(--lab-bg);
             font-family: 'Inter', sans-serif;
         }
-        /* Style for MathJax elements to ensure they are visible on dark background */
         .results-output .mjx-chtml {
-            color: #d1d5db !important; /* light gray */
+            color: #d1d5db !important;
         }
     </style>
 </head>
@@ -27,36 +25,36 @@
     <div class="max-w-7xl mx-auto">
         <header class="text-center mb-8">
             <h1 class="text-4xl font-extrabold text-blue-400">MX Sandbox 🧪</h1>
-            <p class="text-gray-400 mt-2">Design your experiment and observe the simulated results.</p>
+            <p class="text-gray-400 mt-2">Equip your lab and observe the simulated results.</p>
         </header>
 
         <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-            <!-- Panel 1: Experiment Selection --><div id="selection-panel" class="lg:col-span-1 bg-gray-700 p-6 rounded-xl shadow-2xl h-fit">
-                <h2 class="text-2xl font-semibold mb-4 text-white border-b border-gray-600 pb-2">1. Choose Experiment</h2>
+            <div id="selection-panel" class="lg:col-span-1 bg-gray-700 p-6 rounded-xl shadow-2xl h-fit">
+                <h2 class="text-2xl font-semibold mb-4 text-white border-b border-gray-600 pb-2">1. Select Lab Kit</h2>
                 <div id="experiment-list" class="space-y-3">
-                    <!-- Experiment buttons will be dynamically inserted here --></div>
+                    </div>
             </div>
 
-            <!-- Panel 2: Controls & Options --><div id="control-panel" class="lg:col-span-1 bg-gray-700 p-6 rounded-xl shadow-2xl h-fit transition-opacity duration-300 opacity-50 pointer-events-none">
-                <h2 class="text-2xl font-semibold mb-4 text-white border-b border-gray-600 pb-2">2. Set Conditions</h2>
-                <p id="experiment-desc" class="text-sm text-gray-400 mb-6 italic">Select an experiment to see its description and controls.</p>
+            <div id="control-panel" class="lg:col-span-1 bg-gray-700 p-6 rounded-xl shadow-2xl h-fit transition-opacity duration-300 opacity-50 pointer-events-none">
+                <h2 class="text-2xl font-semibold mb-4 text-white border-b border-gray-600 pb-2">2. Design Experiment</h2>
+                <p id="experiment-desc" class="text-sm text-gray-400 mb-6 italic">Select a kit to view available tools and materials.</p>
 
                 <div id="options-container" class="space-y-6">
-                    <!-- Dynamic controls (sliders/selects) will be inserted here --></div>
+                    </div>
 
                 <button id="run-button" class="w-full mt-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors duration-200 shadow-md shadow-blue-500/50 pointer-events-none opacity-50" disabled>
                     Run Experiment
                 </button>
             </div>
 
-            <!-- Panel 3: Pure Text Observation --><div class="lg:col-span-1 bg-gray-700 p-6 rounded-xl shadow-2xl flex flex-col items-center justify-start">
+            <div class="lg:col-span-1 bg-gray-700 p-6 rounded-xl shadow-2xl flex flex-col items-center justify-start">
                 <h2 class="text-2xl font-semibold mb-4 text-white border-b border-gray-700 pb-2 w-full text-center">3. Observation</h2>
 
-                <!-- Textual Results - no beaker, just direct output --><div id="results-output" class="w-full p-4 bg-gray-900 rounded-lg shadow-inner border border-gray-700 min-h-[200px] flex flex-col justify-center">
+                <div id="results-output" class="w-full p-4 bg-gray-900 rounded-lg shadow-inner border border-gray-700 min-h-[200px] flex flex-col justify-center">
                     <h3 id="result-title" class="text-xl font-bold text-gray-400 text-center">Awaiting Results...</h3>
                     <p id="result-text" class="text-gray-400 mt-4 text-sm italic text-center">
-                        Click 'Run Experiment' once you have set the parameters to see the outcome.
+                        Select a kit and click 'Run Experiment' to observe the interaction.
                     </p>
                 </div>
             </div>
@@ -66,145 +64,102 @@
     <script>
         // --- CORE EXPERIMENT DATA ---
         const experiments = {
-             // EXPERIMENT 1: Malleability Hammer Test
                 hammerTest: {
                 key: 'hammerTest',
-                name: "Malleability Hammer Test",
-                description: "Simulate hitting a solid element with a hammer. Observe whether the material is <strong>malleable</strong> or has <strong>no change</strong>",
+                name: "Hammer",
+                description: "Using the <strong>Hammer Kit</strong>, you can test the physical durability of elements to determine if they are malleable or brittle.",
                 options: [
-                    { id: 'elementSelected', label: 'Element to be Hit', type: 'select', choices: ['Zinc (Zn)', 'Iron (Fe)', 'Aluminum (Al)', 'Copper (Cu)', 'Magnesium (Mg)', 'Nickel (Ni)', 'Iodine (I)'], default: 'Iron (Fe)' },
+                    { id: 'elementSelected', label: 'Select Element to Test', type: 'select', choices: ['Zinc (Zn)', 'Iron (Fe)', 'Aluminum (Al)', 'Copper (Cu)', 'Magnesium (Mg)', 'Nickel (Ni)', 'Iodine (I)'], default: 'Iron (Fe)' },
                 ],
                 getResult: (opts) => {
-                    // This extracts the symbol (e.g., 'Fe')
                     const element = opts.elementSelected.match(/\((.*?)\)/)[1];
                     let title, text;
-                    
-                    // Define which elements are malleable (Metals) using their SYMBOLS
                     const malleableMetals = ['Zn', 'Fe', 'Al', 'Cu', 'Mg', 'Ni'];
-                    // Define which elements are brittle (Non-metals) using their SYMBOLS
                     const brittleElements = ['I'];
                     
                     if (malleableMetals.includes(element)) {
-                        title = `${element} flattens and bends slightly! `;
-                        text = `The element <strong>${element}</strong> (a metal) is hit and flattens out, or can be hammered into a sheet. This is due to its metallic bonds allowing atoms to slide past one another. Result: <strong>Malleable</strong>.`;
+                        title = `${element} flattens and bends!`;
+                        text = `The <strong>${element}</strong> sample was hit with the kit's hammer. It flattened into a thin sheet without breaking. Result: <strong>Malleable</strong>.`;
                     } else if (brittleElements.includes(element)) {
-                        title = `${element} shatters into small pieces! `;
-                        text = `The element <strong>${element}</strong> (a non-metal) is hit and shatters into many small pieces. Non-metals are typically <strong>Brittle</strong>.`;
+                        title = `${element} shatters!`;
+                        text = `The <strong>${element}</strong>  sample was hit and immediately shattered into fragments. Result: <strong>Brittle</strong>.`;
                     } else {
-                        title = `${element} has an indeterminate reaction.`;
-                        text = `The element <strong>${element}</strong> is hit and has no readily observable change under these simulated conditions. Result: <strong>Indeterminate</strong>.`;
+                        title = `${element}: No Change.`;
+                        text = `The element <strong>${element}</strong> showed no observable physical change. Result: <strong>Indeterminate</strong>.`;
                     }
-                    return { title, text }; // No visual beaker properties returned
+                    return { title, text };
                 }
             },
 
-            // EXPERIMENT 2: Activity Series
             activitySeries: {
                 key: 'activitySeries',
-                name: "Activity Series (Single Replacement)",
-                description: "Combine a solid metal with an aqueous salt solution.",
+                name: "Activity Series Kit",
+                description: "This kit provides metal samples and aqueous salt solutions to investigate <strong>Single Replacement</strong> reactions.",
                 options: [
-                    {id: 'solidMetal', label: 'Solid Metal', type: 'select', choices: ['Magnesium (Mg)', 'Aluminum (Al)', 'Zinc (Zn)', 'Iron (Fe)', 'Nickel (Ni)', 'Copper (Cu)'], default: 'Zinc (Zn)'},
-                    {id: 'solutionSalt', label: 'Aqueous Salt Solution', type: 'select', choices: ['AgNO3', 'Cu(NO3)2', 'Zn(NO3)2', 'Fe(NO3)2', 'Al(NO3)3', 'Ca(NO3)2', 'KNO3', 'SnCl2'], default: 'AgNO3'}
+                    {id: 'solidMetal', label: 'Choose Solid Metal', type: 'select', choices: ['Magnesium (Mg)', 'Aluminum (Al)', 'Zinc (Zn)', 'Iron (Fe)', 'Nickel (Ni)', 'Copper (Cu)'], default: 'Zinc (Zn)'},
+                    {id: 'solutionSalt', label: 'Choose Aqueous Salt Solution', type: 'select', choices: ['AgNO3', 'Cu(NO3)2', 'Zn(NO3)2', 'Fe(NO3)2', 'Al(NO3)3', 'Ca(NO3)2', 'KNO3', 'SnCl2'], default: 'AgNO3'}
                 ],
                 getResult: (opts) => {
-            // Extract solid metal symbol (from "Zinc (Zn)")
-            const solidMetal = opts.solidMetal.match(/\((.*?)\)/)[1];
-            // Map solution salts to metal ions
-            const saltToMetal = {
-                AgNO3: 'Ag',
-                'Cu(NO3)2': 'Cu',
-                'Zn(NO3)2': 'Zn',
-                'Fe(NO3)2': 'Fe',
-                'Al(NO3)3': 'Al',
-                'Ca(NO3)2': 'Ca',
-                KNO3: 'K',
-                SnCl2: 'Sn'
-            };
+                    const solidMetal = opts.solidMetal.match(/\((.*?)\)/)[1];
+                    const saltToMetal = {
+                        AgNO3: 'Ag', 'Cu(NO3)2': 'Cu', 'Zn(NO3)2': 'Zn', 'Fe(NO3)2': 'Fe', 'Al(NO3)3': 'Al', 'Ca(NO3)2': 'Ca', KNO3: 'K', SnCl2: 'Sn'
+                    };
+                    const solutionMetal = saltToMetal[opts.solutionSalt];
+                    const activitySeries = ['K', 'Ca', 'Mg', 'Al', 'Zn', 'Fe', 'Ni', 'Sn', 'Cu', 'Ag'];
+                    const solidIndex = activitySeries.indexOf(solidMetal);
+                    const solutionIndex = activitySeries.indexOf(solutionMetal);
 
-            const solutionMetal = saltToMetal[opts.solutionSalt];
+                    let title, text;
+                    if (solidIndex === -1 || solutionIndex === -1) return { title: "Error", text: "Invalid selection." };
 
-            // Simplified but correct activity series (most → least reactive)
-            const activitySeries = ['K', 'Ca', 'Mg', 'Al', 'Zn', 'Fe', 'Ni', 'Sn', 'Cu', 'Ag'];
-            const solidIndex = activitySeries.indexOf(solidMetal);
-            const solutionIndex = activitySeries.indexOf(solutionMetal);
-
-            let title, text;
-
-            // Safety check
-            if (solidIndex === -1 || solutionIndex === -1) {
-                title = "Error";
-                text = "Unable to determine reactivity due to invalid selection.";
-                return { title, text };
-            }
-
-            // Same metal → no reaction
-            if (solidMetal === solutionMetal) {
-                title = "No Reaction (NR)";
-                text = "The solid metal and the metal ion in solution are the same (${solidMetal}). No single replacement reaction occurs.";
-                return { title, text };
-            }
-
-            // Reaction condition
-            if (solidIndex < solutionIndex) {
-                title = "Reaction Occurs!";
-                text = "The solid metal (${solidMetal}) is higher in the activity series than the metal ion in solution (${solutionMetal})."
-            }
-            else {
-            title = "No Reaction (NR)";
-            text = "The solid metal (${solidMetal}) is lower in the activity series than the metal ion in solution (${solutionMetal}). No single replacement reaction occurs.";
-            }
-            return { title, text };
+                    if (solidMetal === solutionMetal) {
+                        title = "No Reaction (NR)";
+                        text = `The metal sample and the ion in solution are both <strong>${solidMetal}</strong>. No chemical change observed.`;
+                    } else if (solidIndex < solutionIndex) {
+                        title = "Reaction Occurs!";
+                        text = `The <strong>${solidMetal}</strong> is more reactive than <strong>${solutionMetal}</strong>. A visible coating or color change indicates a successful single replacement.`;
+                    } else {
+                        title = "No Reaction (NR)";
+                        text = `The <strong>${solidMetal}</strong> is less reactive than <strong>${solutionMetal}</strong> in the activity series. No reaction occurred.`;
                     }
+                    return { title, text };
+                }
             },
             
-             // EXPERIMENT 3: Water Testing
                 waterTest: {
                 key: 'waterTest',
-                name: "Water Test",
-                description: "Sink a selected element in water",
+                name: "Beaker and Water",
+                description: "Use this kit to submerge elements in distilled water and observe chemical changes over time.",
                 options: [
-                    { id: 'elementSelected', label: 'Element to be Sunk', type: 'select', choices: ['Zinc (Zn)', 'Iron (Fe)', 'Aluminum (Al)', 'Copper (Cu)', 'Magnesium (Mg)', 'Nickel (Ni)', 'Iodine (I)'], default: 'Zinc (Zn)' },
+                    { id: 'elementSelected', label: 'Select Element to Submerge', type: 'select', choices: ['Zinc (Zn)', 'Iron (Fe)', 'Aluminum (Al)', 'Copper (Cu)', 'Magnesium (Mg)', 'Nickel (Ni)', 'Iodine (I)'], default: 'Zinc (Zn)' },
                 ],
                 getResult: (opts) => {
-                    // This extracts the symbol (e.g., 'Fe')
                     const element = opts.elementSelected.match(/\((.*?)\)/)[1];
                     let title, text;
+                    const metals = ['Zn', 'Fe', 'Al', 'Cu', 'Mg', 'Ni'];
                     
-                    // Define which elements are malleable (Metals) using their SYMBOLS
-                    const nonreactiveMetals = ['Zn', 'Fe', 'Al', 'Cu', 'Mg', 'Ni'];
-                    // Define which elements are brittle (Non-metals) using their SYMBOLS
-                    const nonmetalElements = ['I'];
-                    
-                    if (nonreactiveMetals.includes(element)) {
-                        title = `${element} sinks! `;
-                        text = `The element <strong>${element}</strong>  sank in water for 3 days remained unchanged visually.`;
-                    } else if (nonmetalElements.includes(element)) {
-                        title = `${element} sinks! `;
-                        text = `The element <strong>${element}</strong> solution turned light yellow after 1 minute, dark yellow/brown after 1 day! `;
+                    if (metals.includes(element)) {
+                        title = `${element} Sinks.`;
+                        text = `The <strong>${element}</strong> was submerged for 3 days. It sank to the bottom and remained visually unchanged.`;
+                    } else if (element === 'I') {
+                        title = `${element} Interaction Observed.`;
+                        text = `The <strong>${element}</strong> solution turned light yellow after 1 minute, and dark brown after 1 day.`;
                     } 
-                    return { title, text }; // No visual beaker properties returned
+                    return { title, text };
                 }
             }  
         }
     
         let currentExperimentKey = null;
 
-        // --- DOM ELEMENTS ---
         const experimentList = document.getElementById('experiment-list');
         const controlPanel = document.getElementById('control-panel');
         const optionsContainer = document.getElementById('options-container');
         const experimentDesc = document.getElementById('experiment-desc');
         const runButton = document.getElementById('run-button');
-        // Beaker liquid element is no longer needed
         const resultTitle = document.getElementById('result-title');
         const resultText = document.getElementById('result-text');
 
-        // --- UTILITY FUNCTIONS ---
-
-        /**
-         * Renders the initial experiment selection buttons.
-         */
         function renderExperimentButtons() {
             experimentList.innerHTML = '';
             Object.values(experiments).forEach(exp => {
@@ -217,155 +172,87 @@
             });
         }
 
-        /**
-         * Selects an experiment and updates the control panel.
-         * @param {string} key
-         */
         function selectExperiment(key) {
             currentExperimentKey = key;
             const exp = experiments[key];
-
             controlPanel.classList.remove('opacity-50', 'pointer-events-none');
             runButton.classList.remove('pointer-events-none', 'opacity-50');
             runButton.disabled = false;
-            
             experimentDesc.innerHTML = exp.description;
-            if (typeof MathJax !== 'undefined') { // Check added
-                MathJax.typesetPromise([experimentDesc]);
-            }
+            if (typeof MathJax !== 'undefined') MathJax.typesetPromise([experimentDesc]);
 
             document.querySelectorAll('#experiment-list button').forEach(btn => {
                 btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
                 btn.classList.add('bg-gray-600', 'hover:bg-blue-600');
-                if (btn.dataset.key === key) {
-                    btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
-                }
+                if (btn.dataset.key === key) btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
             });
 
             renderOptions(exp);
             resetVisuals();
         }
 
-        /**
-         * Renders the specific controls for the selected experiment.
-         * @param {object} exp - The selected experiment object.
-         */
         function renderOptions(exp) {
             optionsContainer.innerHTML = '';
             exp.options.forEach(opt => {
                 const container = document.createElement('div');
                 container.className = 'bg-gray-600 p-4 rounded-lg shadow-inner';
-                
                 const label = document.createElement('label');
                 label.className = 'block text-sm font-medium text-gray-200 mb-2';
                 label.innerHTML = `${opt.label}: <span id="value-${opt.id}" class="font-bold text-blue-300">${opt.default} ${opt.unit || ''}</span>`;
-                
-                if (typeof MathJax !== 'undefined') { // Check added
-                    MathJax.typesetPromise([label]);
-                }
-                
+                if (typeof MathJax !== 'undefined') MathJax.typesetPromise([label]);
                 container.appendChild(label);
 
-                if (opt.type === 'slider') {
-                    const input = document.createElement('input');
-                    input.type = 'range';
-                    input.id = opt.id;
-                    input.min = opt.min;
-                    input.max = opt.max;
-                    input.step = opt.step || 1;
-                    input.value = opt.default;
-                    input.className = 'w-full h-2 bg-gray-500 rounded-lg appearance-none cursor-pointer range-lg transition-colors duration-150 ease-in-out';
-                    
-                    input.oninput = (e) => {
-                        document.getElementById(`value-${opt.id}`).textContent = `${e.target.value} ${opt.unit || ''}`;
-                    };
-
-                    container.appendChild(input);
-
-                } else if (opt.type === 'select') {
+                if (opt.type === 'select') {
                     const select = document.createElement('select');
                     select.id = opt.id;
                     select.className = 'w-full p-2 rounded-lg bg-gray-500 border border-gray-400 text-gray-100 focus:ring-blue-500 focus:border-blue-500';
-                    
                     opt.choices.forEach(choice => {
                         const option = document.createElement('option');
                         option.value = choice;
                         option.textContent = choice;
-                        if (choice === opt.default) {
-                            option.selected = true;
-                        }
+                        if (choice === opt.default) option.selected = true;
                         select.appendChild(option);
                     });
-
                     select.onchange = (e) => {
                         document.getElementById(`value-${opt.id}`).innerHTML = e.target.value;
-                        if (typeof MathJax !== 'undefined') { // Check added
-                            MathJax.typesetPromise([document.getElementById(`value-${opt.id}`)]);
-                        }
+                        if (typeof MathJax !== 'undefined') MathJax.typesetPromise([document.getElementById(`value-${opt.id}`)]);
                     };
-                    
                     container.appendChild(select);
                 }
-
                 optionsContainer.appendChild(container);
             });
         }
 
-        /**
-         * Collects the current option values from the controls.
-         * @returns {object} An object containing all current option values.
-         */
         function getOptionValues() {
             if (!currentExperimentKey) return {};
             const exp = experiments[currentExperimentKey];
             const values = {};
             exp.options.forEach(opt => {
                 const element = document.getElementById(opt.id);
-                if (element.type === 'range') {
-                    values[opt.id] = opt.step && opt.step.toString().includes('.') ? parseFloat(element.value) : parseInt(element.value, 10);
-                } else if (element.tagName === 'SELECT') {
-                    values[opt.id] = element.value;
-                }
+                values[opt.id] = element.value;
             });
             return values;
         }
 
-        /**
-         * Executes the selected experiment logic and updates the results panel.
-         */
         function runExperiment() {
             if (!currentExperimentKey) return;
             const exp = experiments[currentExperimentKey];
             const options = getOptionValues();
             const result = exp.getResult(options);
-            
-            // Update Text Results
             resultTitle.textContent = result.title;
             resultText.innerHTML = result.text;
-            
-            // Re-render MathJax in results
-            if (typeof MathJax !== 'undefined') { // Check added
-                MathJax.typesetPromise([resultText, resultTitle]);
-            }
+            if (typeof MathJax !== 'undefined') MathJax.typesetPromise([resultText, resultTitle]);
         }
         
-        /**
-         * Resets the visual display to default.
-         */
         function resetVisuals() {
             resultTitle.textContent = 'Awaiting Results...';
-            resultText.textContent = 'Click \'Run Experiment\' once you have set the parameters to see the outcome.';
+            resultText.textContent = 'Configure the tools and click \'Run Experiment\' to see the outcome.';
         }
 
-        // --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', () => {
             renderExperimentButtons();
             runButton.addEventListener('click', runExperiment);
-            
-            // Initial MathJax render for buttons/descriptions that contain LaTeX
-            if (typeof MathJax !== 'undefined') { // Check added
-                MathJax.typesetPromise([experimentList, experimentDesc]);
-            }
+            if (typeof MathJax !== 'undefined') MathJax.typesetPromise([experimentList, experimentDesc]);
         });
     </script>
 </body>
