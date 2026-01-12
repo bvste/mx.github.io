@@ -11,17 +11,24 @@
         :root { --lab-bg: #1f2937; }
         body { background-color: var(--lab-bg); font-family: 'Inter', sans-serif; }
         .results-output .mjx-chtml { color: #d1d5db !important; }
-        /* Modal Animation */
-        .modal-enter { transition: opacity 0.3s ease-out; }
         .hidden-modal { display: none; }
+        /* Ensuring the modal is on top of everything */
+        #ack-modal { z-index: 9999; }
     </style>
 </head>
 <body class="text-gray-200 min-h-screen p-4 md:p-8">
 
-    <div class="max-w-7xl mx-auto">
+    <div class="max-w-7xl mx-auto relative">
+        <button onclick="toggleModal(true)" class="absolute top-0 right-0 flex items-center gap-2 bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 text-xs font-bold py-2 px-4 rounded-lg border border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.2)] transition-all">
+            <span>Acknowledgements</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+        </button>
+
         <header class="text-center mb-8">
             <h1 class="text-4xl font-extrabold text-blue-400">MX Sandbox 🧪</h1>
-            <p class="text-gray-400 mt-2">Design your experiment and observe the simulated results.</p>
+            <p class="text-gray-400 mt-2">Equip your lab and observe the simulated results.</p>
         </header>
 
         <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -47,49 +54,42 @@
         </main>
     </div>
 
-    <button onclick="toggleModal(true)" class="fixed bottom-6 right-6 flex items-center gap-2 bg-gray-800 hover:bg-gray-600 text-blue-400 text-xs font-bold py-2 px-4 rounded-full border border-gray-600 shadow-xl transition-all hover:scale-105">
-        <span>Acknowledgements</span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-    </button>
-
-    <div id="ack-modal" class="hidden-modal fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-gray-800 border border-gray-600 w-full max-w-md rounded-2xl shadow-2xl p-6">
-            <div class="flex justify-between items-center border-b border-gray-700 pb-4 mb-4">
-                <h2 class="text-xl font-bold text-blue-400">Lab Credits</h2>
-                <button onclick="toggleModal(false)" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+    <div id="ack-modal" class="hidden-modal fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-gray-800 border border-gray-600 w-full max-w-md rounded-2xl shadow-2xl p-8 transform transition-all scale-100">
+            <div class="flex justify-between items-center border-b border-gray-700 pb-4 mb-6">
+                <h2 class="text-2xl font-bold text-blue-400">Project Acknowledgements</h2>
+                <button onclick="toggleModal(false)" class="text-gray-400 hover:text-white text-3xl">&times;</button>
             </div>
             
-            <div class="space-y-4">
+            <div class="space-y-6">
                 <div>
-                    <h4 class="text-sm font-semibold text-gray-300 uppercase tracking-wider">Project Lead</h4>
-                    <p class="text-blue-300">Lead Developer Name</p>
-                    <p class="text-xs text-gray-500">lead.dev@example.com</p>
+                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Development Team</h4>
+                    <ul class="space-y-3">
+                        <li>
+                            <p class="text-blue-300 font-medium">Lead Developer Name</p>
+                            <p class="text-xs text-gray-400">Contact: lead@mx-lab.edu</p>
+                        </li>
+                        <li>
+                            <p class="text-blue-300 font-medium">Simulation Specialist</p>
+                            <p class="text-xs text-gray-400">Contact: dev-team@mx-lab.edu</p>
+                        </li>
+                    </ul>
                 </div>
-                <div>
-                    <h4 class="text-sm font-semibold text-gray-300 uppercase tracking-wider">Simulation Design</h4>
-                    <p class="text-blue-300">Designer Name</p>
-                    <p class="text-xs text-gray-500">design.team@example.com</p>
-                </div>
-                <div class="pt-4 border-t border-gray-700 text-[11px] text-gray-500 italic">
-                    Developed for Educational Use (2026). Special thanks to the Chemistry Department for logic verification.
+                <div class="pt-6 border-t border-gray-700">
+                    <p class="text-[11px] text-gray-500 leading-relaxed italic">
+                        This sandbox was designed as an interactive tool for studying the chemical properties of elements. Special thanks to the open-source community for Tailwind CSS and MathJax.
+                    </p>
                 </div>
             </div>
 
-            <button onclick="toggleModal(false)" class="w-full mt-6 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors">Close</button>
+            <button onclick="toggleModal(false)" class="w-full mt-8 py-3 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-xl transition-colors">Return to Lab</button>
         </div>
     </div>
 
     <script>
-        // Modal Logic
         function toggleModal(show) {
             const modal = document.getElementById('ack-modal');
-            if (show) {
-                modal.classList.remove('hidden-modal');
-            } else {
-                modal.classList.add('hidden-modal');
-            }
+            modal.style.display = show ? 'flex' : 'none';
         }
 
         // --- CORE EXPERIMENT DATA ---
