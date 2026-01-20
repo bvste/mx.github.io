@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><title>MX Sandbox</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="p-8">
+    <div class="flex justify-between max-w-6xl mx-auto mb-8">
+        <button onclick="openModal('mx-modal')" class="bg-blue-600/20 text-blue-400 px-4 py-2 rounded-lg border border-blue-500/50 font-bold">MX Properties</button>
+        <button onclick="openModal('ack-modal')" class="bg-blue-600/20 text-blue-400 px-4 py-2 rounded-lg border border-blue-500/50 font-bold">Acknowledgements</button>
+    </div>
+
+    <div id="selection-screen" class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-2 gap-8 mb-8">
+            <div id="m-list" class="space-y-3">
+                <h3 class="text-xl font-bold text-blue-400">Experiments for M (Pick 3)</h3>
+            </div>
+            <div id="x-list" class="space-y-3">
+                <h3 class="text-xl font-bold text-emerald-400">Experiments for X (Pick 3)</h3>
+            </div>
+        </div>
+        <button id="run-btn" disabled onclick="runLab()" class="w-full bg-gray-600 py-4 rounded-xl font-bold opacity-50">Run Experiments</button>
+    </div>
+
+    <div id="results-screen" class="hidden max-w-4xl mx-auto space-y-8">
+        <div id="data-output" class="bg-gray-900 p-6 rounded-xl border border-gray-700 grid grid-cols-2 gap-4"></div>
+        <div class="bg-gray-800 p-6 rounded-xl">
+            <h3 class="text-xl font-bold mb-4">Final Assumptions</h3>
+            <textarea id="assumption" class="w-full bg-gray-900 p-4 rounded-lg border border-gray-600" rows="5" placeholder="Enter your M and X assumptions..."></textarea>
+            <button onclick="finalizeLab()" class="w-full bg-emerald-600 mt-4 py-3 rounded-lg font-bold">Submit to Backend</button>
+        </div>
+    </div>
+
+    <div id="mx-modal" class="modal"><div class="bg-gray-800 p-8 rounded-xl max-w-md">
+        <h2 class="text-2xl font-bold text-blue-400 mb-4">MX Properties</h2>
+        <p class="text-gray-300">M is a dense metallic solid. X is a volatile non-metal with purple vapors.</p>
+        <button onclick="closeModal('mx-modal')" class="w-full bg-blue-600 mt-6 py-2 rounded-lg">Close</button>
+    </div></div>
+
+    <div id="ack-modal" class="modal"><div class="bg-gray-800 p-8 rounded-xl">
+        <p>Developed by Doyoon Kim</p>
+        <button onclick="closeModal('ack-modal')" class="w-full bg-gray-700 mt-6 py-2 rounded-lg">Return</button>
+    </div></div>
+
+    <button onclick="checkTeacher()" class="fixed bottom-4 right-4 text-gray-600 text-xs">Teacher Access</button>
+
+    <script src="script.js"></script>
+</body>
+</html>
