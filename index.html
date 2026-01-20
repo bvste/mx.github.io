@@ -1,30 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"><title>MX Lab - Entry</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MX Lab - Entry</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="flex items-center justify-center min-h-screen">
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
+    
     <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-700 w-full max-w-md text-center">
-        <h1 class="text-3xl font-bold text-blue-400 mb-6">MX Lab Entry</h1>
+        <h1 class="text-3xl font-bold text-blue-400 mb-2">MX Lab Entry</h1>
+        <p class="text-gray-400 text-sm mb-6">Please enter your details to begin the simulation.</p>
+        
         <div class="space-y-4">
-            <input type="text" id="fName" placeholder="First Name" class="w-full bg-gray-900 border border-gray-600 p-3 rounded-lg">
-            <input type="text" id="lName" placeholder="Last Name" class="w-full bg-gray-900 border border-gray-600 p-3 rounded-lg">
-            <input type="text" id="period" placeholder="Class Period" class="w-full bg-gray-900 border border-gray-600 p-3 rounded-lg">
-            <button onclick="login()" class="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-lg font-bold">Enter Lab</button>
+            <input type="text" id="fName" placeholder="First Name" 
+                   class="w-full bg-gray-900 border border-gray-600 p-3 rounded-lg focus:outline-none focus:border-blue-500 transition-colors">
+            
+            <input type="text" id="lName" placeholder="Last Name" 
+                   class="w-full bg-gray-900 border border-gray-600 p-3 rounded-lg focus:outline-none focus:border-blue-500 transition-colors">
+            
+            <input type="text" id="period" placeholder="Class Period (e.g., 3rd)" 
+                   class="w-full bg-gray-900 border border-gray-600 p-3 rounded-lg focus:outline-none focus:border-blue-500 transition-colors">
+            
+            <button onclick="login()" 
+                    class="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-lg font-bold text-white transition-all transform active:scale-95 shadow-lg shadow-blue-900/20">
+                Enter Lab
+            </button>
         </div>
     </div>
+
+    <button onclick="checkTeacher()" 
+            class="fixed bottom-4 right-4 text-gray-600 hover:text-gray-400 text-xs bg-gray-800/30 px-3 py-2 rounded border border-gray-700/50 transition-all">
+        Teacher Access
+    </button>
+
     <script>
+        // Student Login Logic
         function login() {
             const data = {
-                fName: document.getElementById('fName').value,
-                lName: document.getElementById('lName').value,
-                period: document.getElementById('period').value
+                fName: document.getElementById('fName').value.trim(),
+                lName: document.getElementById('lName').value.trim(),
+                period: document.getElementById('period').value.trim()
             };
-            if(!data.fName || !data.lName || !data.period) return alert("Fill all fields");
+
+            if(!data.fName || !data.lName || !data.period) {
+                alert("All fields are required to proceed.");
+                return;
+            }
+
+            // Store info for the duration of the session
             sessionStorage.setItem('activeStudent', JSON.stringify(data));
             window.location.href = 'lab.html';
+        }
+
+        // Teacher Access Logic (Same as lab.html)
+        function checkTeacher() {
+            const code = prompt("Enter Teacher Access Code:");
+            if(code === "MXLabResults") {
+                const logs = JSON.parse(localStorage.getItem('mx_results') || '[]');
+                if(logs.length === 0) {
+                    alert("No student entries have been submitted yet.");
+                } else {
+                    console.table(logs);
+                    alert("Access Granted. " + logs.length + " entries have been printed to the Browser Console (Press F12 to view).");
+                }
+            } else if (code !== null) {
+                alert("Incorrect access code.");
+            }
         }
     </script>
 </body>
