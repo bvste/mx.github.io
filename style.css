@@ -15,3 +15,29 @@ body { background-color: var(--lab-bg); font-family: 'Inter', sans-serif; color:
 }
 .selected-m { border-color: #3b82f6; background: rgba(59, 130, 246, 0.2); }
 .selected-x { border-color: #10b981; background: rgba(16, 185, 129, 0.2); }
+
+.teacher-btn {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    display: flex;
+    items-center: center;
+    gap: 0.5rem;
+    background-color: #374151; /* Gray-700 */
+    color: #9ca3af; /* Gray-400 */
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    border: 1px solid #4b5563;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.teacher-btn:hover {
+    background-color: #4b5563;
+    color: #f3f4f6;
+    border-color: #6b7280;
+}
