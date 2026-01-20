@@ -1,0 +1,17 @@
+:root { --lab-bg: #1f2937; }
+body { background-color: var(--lab-bg); font-family: 'Inter', sans-serif; color: #e5e7eb; }
+
+.hidden { display: none; }
+.modal { 
+    display: none; position: fixed; inset: 0; 
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); 
+    z-index: 100; align-items: center; justify-content: center; 
+}
+.modal.active { display: flex; }
+
+.experiment-card { 
+    cursor: pointer; padding: 1rem; border-radius: 0.75rem; 
+    background: #374151; border: 2px solid transparent; transition: all 0.2s; 
+}
+.selected-m { border-color: #3b82f6; background: rgba(59, 130, 246, 0.2); }
+.selected-x { border-color: #10b981; background: rgba(16, 185, 129, 0.2); }
