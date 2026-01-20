@@ -1,267 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MX Sandbox</title>
+    <meta charset="UTF-8"><title>MX Lab - Entry</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <style>
-        :root { --lab-bg: #1f2937; }
-        body { background-color: var(--lab-bg); font-family: 'Inter', sans-serif; }
-        .results-output .mjx-chtml { color: #d1d5db !important; }
-        .hidden-modal { display: none; }
-        /* Ensuring the modal is on top of everything */
-        #ack-modal { z-index: 9999; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="text-gray-200 min-h-screen p-4 md:p-8">
-
-    <div class="max-w-7xl mx-auto relative">
-        <button onclick="toggleModal(true)" class="absolute top-0 right-0 flex items-center gap-2 bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 text-xs font-bold py-2 px-4 rounded-lg border border-blue-500/50 shadow-[0_0_15px_rgba(59,130,246,0.2)] transition-all">
-            <span>Acknowledgements</span>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-        </button>
-
-        <header class="text-center mb-8">
-            <h1 class="text-4xl font-extrabold text-blue-400">MX Sandbox 🧪</h1>
-            <p class="text-gray-400 mt-2">Equip your lab and observe the simulated results.</p>
-        </header>
-
-        <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div id="selection-panel" class="lg:col-span-1 bg-gray-700 p-6 rounded-xl shadow-2xl h-fit">
-                <h2 class="text-2xl font-semibold mb-4 text-white border-b border-gray-600 pb-2">1. Select Lab Kit</h2>
-                <div id="experiment-list" class="space-y-3"></div>
-            </div>
-
-            <div id="control-panel" class="lg:col-span-1 bg-gray-700 p-6 rounded-xl shadow-2xl h-fit transition-opacity duration-300 opacity-50 pointer-events-none">
-                <h2 class="text-2xl font-semibold mb-4 text-white border-b border-gray-600 pb-2">2. Design Experiment</h2>
-                <p id="experiment-desc" class="text-sm text-gray-400 mb-6 italic">Select a kit to view available tools.</p>
-                <div id="options-container" class="space-y-6"></div>
-                <button id="run-button" class="w-full mt-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors shadow-md shadow-blue-500/50 pointer-events-none opacity-50" disabled>Run Experiment</button>
-            </div>
-
-            <div class="lg:col-span-1 bg-gray-700 p-6 rounded-xl shadow-2xl flex flex-col items-center justify-start">
-                <h2 class="text-2xl font-semibold mb-4 text-white border-b border-gray-700 pb-2 w-full text-center">3. Observation</h2>
-                <div id="results-output" class="w-full p-4 bg-gray-900 rounded-lg shadow-inner border border-gray-700 min-h-[200px] flex flex-col justify-center">
-                    <h3 id="result-title" class="text-xl font-bold text-gray-400 text-center">Awaiting Results...</h3>
-                    <p id="result-text" class="text-gray-400 mt-4 text-sm italic text-center">Select a kit to begin.</p>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <div id="ack-modal" class="hidden-modal fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-        <div class="bg-gray-800 border border-gray-600 w-full max-w-md rounded-2xl shadow-2xl p-8 transform transition-all scale-100">
-            <div class="flex justify-between items-center border-b border-gray-700 pb-4 mb-6">
-                <h2 class="text-2xl font-bold text-blue-400">Project Acknowledgements</h2>
-                <button onclick="toggleModal(false)" class="text-gray-400 hover:text-white text-3xl">&times;</button>
-            </div>
-            
-            <div class="space-y-6">
-                <div>
-                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Development</h4>
-                    <ul class="space-y-3">
-                        <li>
-                            <p class="text-blue-300 font-medium">Doyoon Kim</p>
-                            <a href="mailto:dyoonkim07@gmail.com" class="text-blue-400 hover:underline">Contact: dyoonkim07@gmail.com</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="pt-6 border-t border-gray-700">
-                    <p class="text-[11px] text-gray-500 leading-relaxed italic">
-                        This sandbox was designed as an interactive tool for the MX Lab. This website is open sourced on GitHub! Feel free to send in any bug reports or suggestions as issues or email dyoonkim07@gmail.com. Special thanks to the open-source community for Tailwind CSS and MathJax.
-                    </p>
-                </div>
-            </div>
-
-            <button onclick="toggleModal(false)" class="w-full mt-8 py-3 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-xl transition-colors">Return to Lab</button>
+<body class="flex items-center justify-center min-h-screen">
+    <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-700 w-full max-w-md text-center">
+        <h1 class="text-3xl font-bold text-blue-400 mb-6">MX Lab Entry</h1>
+        <div class="space-y-4">
+            <input type="text" id="fName" placeholder="First Name" class="w-full bg-gray-900 border border-gray-600 p-3 rounded-lg">
+            <input type="text" id="lName" placeholder="Last Name" class="w-full bg-gray-900 border border-gray-600 p-3 rounded-lg">
+            <input type="text" id="period" placeholder="Class Period" class="w-full bg-gray-900 border border-gray-600 p-3 rounded-lg">
+            <button onclick="login()" class="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-lg font-bold">Enter Lab</button>
         </div>
     </div>
-
     <script>
-        function toggleModal(show) {
-            const modal = document.getElementById('ack-modal');
-            modal.style.display = show ? 'flex' : 'none';
+        function login() {
+            const data = {
+                fName: document.getElementById('fName').value,
+                lName: document.getElementById('lName').value,
+                period: document.getElementById('period').value
+            };
+            if(!data.fName || !data.lName || !data.period) return alert("Fill all fields");
+            sessionStorage.setItem('activeStudent', JSON.stringify(data));
+            window.location.href = 'lab.html';
         }
-
-        // --- CORE EXPERIMENT DATA ---
-        const experiments = {
-        // EXPERIEMENT 1: HAMMER TEST
-            hammerTest: {
-                key: 'hammerTest',
-                name: "Hammer",
-                description: "Use a <strong>Hammer</strong> to strike each element.",
-                options: [
-                    { id: 'elementSelected', label: 'Select Element', type: 'select', choices: ['Zinc (Zn)', 'Iron (Fe)', 'Aluminum (Al)', 'Copper (Cu)', 'Magnesium (Mg)', 'Nickel (Ni)', 'Iodine (I)'], default: 'Iron (Fe)' },
-                ],
-                getResult: (opts) => {
-                    const element = opts.elementSelected.match(/\((.*?)\)/)[1];
-                    const malleableMetals = ['Zn', 'Fe', 'Al', 'Cu', 'Mg', 'Ni'];
-                    if (malleableMetals.includes(element)) return { title: `${element} flattens!`, text: `The ${element} sample was hammered into a thin sheet.` };
-                    return { title: `${element} shatters!`, text: `The ${element} sample shattered into pieces.` };
-                }
-            },
-        // EXPERIEMENT 2: ACTIVITY SERIES
-            activitySeries: {
-                key: 'activitySeries',
-                name: "Activity Series Kit",
-                description: "Investigate <strong>Single Replacement</strong> reactions using metals and salts.",
-                options: [
-                    {id: 'solidMetal', label: 'Solid Metal', type: 'select', choices: ['Magnesium (Mg)', 'Aluminum (Al)', 'Zinc (Zn)', 'Iron (Fe)', 'Nickel (Ni)', 'Copper (Cu)'], default: 'Zinc (Zn)'},
-                    {id: 'solutionSalt', label: 'Aqueous Solution', type: 'select', choices: ['AgNO3', 'Cu(NO3)2', 'Zn(NO3)2', 'Fe(NO3)2', 'Al(NO3)3', 'Ca(NO3)2', 'KNO3', 'SnCl2'], default: 'AgNO3'}
-                ],
-                getResult: (opts) => {
-                    const solidMetal = opts.solidMetal.match(/\((.*?)\)/)[1];
-                    const saltToMetal = { AgNO3: 'Ag', 'Cu(NO3)2': 'Cu', 'Zn(NO3)2': 'Zn', 'Fe(NO3)2': 'Fe', 'Al(NO3)3': 'Al', 'Ca(NO3)2': 'Ca', KNO3: 'K', SnCl2: 'Sn' };
-                    const solutionMetal = saltToMetal[opts.solutionSalt];
-                    const series = ['K', 'Ca', 'Mg', 'Al', 'Zn', 'Fe', 'Ni', 'Sn', 'Cu', 'Ag'];
-                    const solidIdx = series.indexOf(solidMetal);
-                    const solIdx = series.indexOf(solutionMetal);
-                    if (solidMetal === solutionMetal) return { title: "No Reaction", text: "Same metal in solid and solution." };
-                    if (solidIdx < solIdx) return { title: "Reaction Occurs!", text: `${solidMetal} replaced ${solutionMetal} successfully.` };
-                    return { title: "No Reaction", text: `${solidMetal} is less reactive than ${solutionMetal}.` };
-                }
-            },
-            // EXPERIMENT 3: Water Testing
-                waterTest: {
-                key: 'waterTest',
-                name: "Beaker and Water",
-                description: "Sink a selected element in distilled water",
-                options: [
-                    { id: 'elementSelected', label: 'Element to be Sunk', type: 'select', choices: ['Zinc (Zn)', 'Iron (Fe)', 'Aluminum (Al)', 'Copper (Cu)', 'Magnesium (Mg)', 'Nickel (Ni)', 'Iodine (I)'], default: 'Zinc (Zn)' },
-                ],
-
-                getResult: (opts) => {
-                // This extracts the symbol (e.g., 'Fe')
-                    const element = opts.elementSelected.match(/\((.*?)\)/)[1];
-                    let title, text;
-                    
-                    // Define which elements are malleable (Metals) using their SYMBOLS
-                    const nonreactiveMetals = ['Zn', 'Fe', 'Al', 'Cu', 'Mg', 'Ni'];
-                    // Define which elements are brittle (Non-metals) using their SYMBOLS
-                    const nonmetalElements = ['I'];
-
-                    if (nonreactiveMetals.includes(element)) {
-                        title = `${element} sinks! `;
-                        text = `The element <strong>${element}</strong>  sank in water for 3 days and remained unchanged visually.`;
-                    } else if (nonmetalElements.includes(element)) {
-                        title = `${element} sinks! `;
-                        text = `The element <strong>${element}</strong> solution turned light yellow after 1 minute, dark yellow/brown after 1 day! `;
-                    } 
-                    return { title, text }; // No visual beaker properties returned
-                }
-            },
-            // EXPERIMENT 4: MELTING
-                meltingTest: {
-                key: 'meltingTest',
-                name: "Crucible, Bunsen burner, Matches",
-                description: "Use a crucible, bunsen burner, and matches to heat up the element.",
-                options: [
-                    { id: 'elementSelected', label: 'Element to be Melted', type: 'select', choices: ['Zinc (Zn)', 'Iron (Fe)', 'Aluminum (Al)', 'Copper (Cu)', 'Magnesium (Mg)', 'Nickel (Ni)', 'Iodine (I)'], default: 'Zinc (Zn)' },
-                ],
-
-                getResult: (opts) => {
-                // This extracts the symbol (e.g., 'Fe')
-                    const element = opts.elementSelected.match(/\((.*?)\)/)[1];
-                    let title, text;
-                    
-                    // Define which elements melt using their SYMBOLS
-                    const nonreactiveMetals = ['Zn', 'Fe', 'Al', 'Cu', 'Mg', 'Ni'];
-                    // Define which elements don't melt using their SYMBOLS
-                    const nonmetalElements = ['I'];
-
-                    if (nonreactiveMetals.includes(element)) {
-                        title = `${element} sinks! `;
-                        text = `The element <strong>${element}</strong> melted in 5 minutes.`;
-                    } else if (nonmetalElements.includes(element)) {
-                        title = `${element} created toxic gas! `;
-                        text = `<strong>Dark purple gas</strong> started flowing out, and everyone started coughing. Dr. Mellows had to evacuate the class due to the toxicity. `;
-                    } 
-                    return { title, text }; // No visual beaker properties returned
-                }
-            }
-        };
-
-        let currentExperimentKey = null;
-        const experimentList = document.getElementById('experiment-list');
-        const controlPanel = document.getElementById('control-panel');
-        const optionsContainer = document.getElementById('options-container');
-        const experimentDesc = document.getElementById('experiment-desc');
-        const runButton = document.getElementById('run-button');
-        const resultTitle = document.getElementById('result-title');
-        const resultText = document.getElementById('result-text');
-
-        function renderExperimentButtons() {
-            Object.values(experiments).forEach(exp => {
-                const btn = document.createElement('button');
-                btn.className = 'w-full py-2 px-4 rounded-lg text-left bg-gray-600 hover:bg-blue-600 transition-colors shadow-md';
-                btn.dataset.key = exp.key;
-                btn.innerHTML = exp.name;
-                btn.addEventListener('click', () => selectExperiment(exp.key));
-                experimentList.appendChild(btn);
-            });
-        }
-
-        function selectExperiment(key) {
-            currentExperimentKey = key;
-            controlPanel.classList.remove('opacity-50', 'pointer-events-none');
-            runButton.classList.remove('pointer-events-none', 'opacity-50');
-            runButton.disabled = false;
-            experimentDesc.innerHTML = experiments[key].description;
-            if (window.MathJax) MathJax.typesetPromise([experimentDesc]);
-            
-            document.querySelectorAll('#experiment-list button').forEach(btn => {
-                btn.classList.toggle('bg-blue-600', btn.dataset.key === key);
-                btn.classList.toggle('bg-gray-600', btn.dataset.key !== key);
-            });
-
-            renderOptions(experiments[key]);
-            resultTitle.textContent = 'Awaiting Results...';
-            resultText.textContent = 'Click \'Run Experiment\' to see the outcome.';
-        }
-
-        function renderOptions(exp) {
-            optionsContainer.innerHTML = '';
-            exp.options.forEach(opt => {
-                const div = document.createElement('div');
-                div.className = 'bg-gray-600 p-4 rounded-lg shadow-inner';
-                div.innerHTML = `<label class="block text-sm font-medium text-gray-200 mb-2">${opt.label}: <span id="value-${opt.id}" class="font-bold text-blue-300">${opt.default}</span></label>`;
-                const sel = document.createElement('select');
-                sel.id = opt.id;
-                sel.className = 'w-full p-2 rounded-lg bg-gray-500 border border-gray-400 text-gray-100';
-                opt.choices.forEach(c => {
-                    const o = document.createElement('option');
-                    o.value = c; o.textContent = c;
-                    if (c === opt.default) o.selected = true;
-                    sel.appendChild(o);
-                });
-                sel.onchange = (e) => {
-                    document.getElementById(`value-${opt.id}`).innerHTML = e.target.value;
-                    if (window.MathJax) MathJax.typesetPromise([document.getElementById(`value-${opt.id}`)]);
-                };
-                div.appendChild(sel);
-                optionsContainer.appendChild(div);
-            });
-        }
-
-        function runExperiment() {
-            const exp = experiments[currentExperimentKey];
-            const opts = {};
-            exp.options.forEach(o => opts[o.id] = document.getElementById(o.id).value);
-            const res = exp.getResult(opts);
-            resultTitle.textContent = res.title;
-            resultText.innerHTML = res.text;
-            if (window.MathJax) MathJax.typesetPromise([resultText, resultTitle]);
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            renderExperimentButtons();
-            runButton.addEventListener('click', runExperiment);
-        });
     </script>
 </body>
 </html>
