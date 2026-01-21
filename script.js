@@ -58,22 +58,51 @@ function runLab() {
         selectedX.map(id => `<p class='text-sm mt-2'>• ${experiments.find(e => e.id===id).text}</p>`).join('') + "</div>";
 }
 
-function finalizeLab() {
+async function finalizeLab() {
     const student = JSON.parse(sessionStorage.getItem('activeStudent'));
+    const assumptionText = document.getElementById('assumption').value;
+    
+    if(!assumptionText) return alert("Write a CER below explaining your findings based on the data.");
+
     const entry = {
-        name: `${student.fName} ${student.lName}`,
+        fName: student.fName,
+        lName: student.lName,
         period: student.period,
-        mExps: selectedM,
-        xExps: selectedX,
-        assumption: document.getElementById('assumption').value,
-        date: new Date().toLocaleString()
+        mExps: selectedM.map(id => experiments.find(e => e.id === id).name),
+        xExps: selectedX.map(id => experiments.find(e => e.id === id).name),
+        assumption: assumptionText
     };
 
-    let logs = JSON.parse(localStorage.getItem('mx_results') || '[]');
-    logs.push(entry);
-    localStorage.setItem('mx_results', JSON.stringify(logs));
-    alert("Lab Submitted!");
-    window.location.href = 'index.html';
+    // --- GOOGLE SHEETS INTEGRATION ---
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby6Si2FXvmqibiwfnwrWT0vq4X9cRvfXsc_kaNyqxJKJCsPD2ursvY39qrC4T-WlZCJ-g/exec'; // <--- GOOGLE SHEET WEB APP
+
+    try {
+        // Show loading state
+        const btn = document.querySelector('button[onclick="finalizeLab()"]');
+        btn.innerText = "Submitting...";
+        btn.disabled = true;
+
+        await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors', // Required for Google Script Web Apps
+            cache: 'no-cache',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(entry)
+        });
+
+        // Also save a local backup just in case
+        let logs = JSON.parse(localStorage.getItem('mx_results') || '[]');
+        logs.push(entry);
+        localStorage.setItem('mx_results', JSON.stringify(logs));
+
+        alert("Lab Submitted Successfully!");
+        window.location.href = 'index.html';
+    } catch (error) {
+        console.error('Error!', error.message);
+        alert("Submission failed. Please check your internet connection.");
+        btn.innerText = "Submit to Backend";
+        btn.disabled = false;
+    }
 }
 
 function openModal(id) { document.getElementById(id).classList.add('active'); }
