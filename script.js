@@ -1,11 +1,11 @@
 // Distinct experiments for M (Metallic focus)
 const experimentsM = [
-    { id: 1, name: "Hammer Test", text: "The sample is malleable; it flattened into a thin, shiny sheet." },
+    { id: 1, name: "Hammer Test", text: "The sample flattened into a thin, shiny sheet." },
     { id: 2, name: "HCl Reactivity", text: "Vigorous bubbling (H2 gas); the solid slowly dissolved into a clear solution." },
-    { id: 3, name: "Electrical Probe", text: "High conductivity detected. The multimeter maxed out immediately." },
+    { id: 3, name: "Conductivity", text: "High conductivity detected. The multimeter maxed out immediately." },
     { id: 4, name: "Activity Series", text: "M successfully replaced Copper in a CuSO4 solution." },
-    { id: 5, name: "Luster/Buffing", text: "After sanding, the surface shows a brilliant silver-white luster." },
-    { id: 6, name: "Density/Displacement", text: "High density (8.9 g/cm³). The sample sank rapidly in the graduated cylinder." }
+    { id: 5, name: "Bunsen Burner", text: "After sanding, the surface shows a brilliant silver-white luster." },
+    { id: 6, name: "Water Test", text: "High density (8.9 g/cm³). The sample sank rapidly in the graduated cylinder." }
 ];
 
 // Distinct experiments for X (Non-metal focus)
