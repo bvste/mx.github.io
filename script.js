@@ -75,7 +75,6 @@ async function finalizeLab() {
 
     // --- GOOGLE SHEETS INTEGRATION ---
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/u/5/home/projects/1iY52m1EHMcpUjp5Iu7SGJ8-TQblk7v4eYxg59gfvGrQBfwqCzNIYh1-h/edit'; // <--- GOOGLE SHEET WEB APP
-//https://script.google.com/macros/s/AKfycby6Si2FXvmqibiwfnwrWT0vq4X9cRvfXsc_kaNyqxJKJCsPD2ursvY39qrC4T-WlZCJ-g/exec
     
     try {
         // Show loading state
