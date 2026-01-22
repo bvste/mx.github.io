@@ -1,34 +1,48 @@
-const experiments = [
-    { id: 1, name: "Hammer Test", text: "Material sinks in water; 8.9g/cm3." },
-    { id: 2, name: "Activities Series", text: "Reacts slowly; releases H2 gas." },
-    { id: 3, name: "Conductivity", text: "Strong conductor of electricity." },
-    { id: 4, name: "Flame Test", text: "Highly reflective surface." },
-    { id: 5, name: "Heating Test", text: "Melt point is high; X turns to gas." },
-    { id: 6, name: "Water Test", text: "Material shows no magnetic field." }
+// Distinct experiments for M (Metallic focus)
+const experimentsM = [
+    { id: 1, name: "Hammer Test", text: "The sample is malleable; it flattened into a thin, shiny sheet." },
+    { id: 2, name: "HCl Reactivity", text: "Vigorous bubbling (H2 gas); the solid slowly dissolved into a clear solution." },
+    { id: 3, name: "Electrical Probe", text: "High conductivity detected. The multimeter maxed out immediately." },
+    { id: 4, name: "Activity Series", text: "M successfully replaced Copper in a CuSO4 solution." },
+    { id: 5, name: "Luster/Buffing", text: "After sanding, the surface shows a brilliant silver-white luster." },
+    { id: 6, name: "Density/Displacement", text: "High density (8.9 g/cm³). The sample sank rapidly in the graduated cylinder." }
+];
+
+// Distinct experiments for X (Non-metal focus)
+const experimentsX = [
+    { id: 1, name: "Bunsen Burner", text: "The sample sublimated into a thick, toxic purple gas. The room had to be evacuated." },
+    { id: 2, name: "Solubility in Water", text: "The water turned a dark yellow-brown color after 24 hours." },
+    { id: 3, name: "Brittleness Test", text: "Under the hammer, the sample shattered into a fine, dark purple powder." },
+    { id: 4, name: "Hexane Test", text: "X dissolved completely in the organic solvent, creating a violet solution." },
+    { id: 5, name: "Starch Indicator", text: "The solution turned a deep blue-black color, indicating a specific halogen." },
+    { id: 6, name: "Thermal Conductivity", text: "Low conductivity. The material acted as an insulator." }
 ];
 
 let selectedM = [];
 let selectedX = [];
 
-// Initialize cards
 window.onload = () => {
     const student = JSON.parse(sessionStorage.getItem('activeStudent'));
     if(!student) window.location.href = 'index.html';
     
-    // Auto-open MX props on start
     openModal('mx-modal');
 
     const mList = document.getElementById('m-list');
     const xList = document.getElementById('x-list');
 
-    experiments.forEach(exp => {
+    // Render M experiments
+    experimentsM.forEach(exp => {
         mList.innerHTML += `<div class="experiment-card" onclick="toggleSelection(${exp.id}, 'm', this)">${exp.name}</div>`;
+    });
+
+    // Render X experiments
+    experimentsX.forEach(exp => {
         xList.innerHTML += `<div class="experiment-card" onclick="toggleSelection(${exp.id}, 'x', this)">${exp.name}</div>`;
     });
 };
 
 function toggleSelection(id, type, el) {
-    let list = type === 'm' ? selectedM : selectedX;
+    let list = (type === 'm') ? selectedM : selectedX;
     const idx = list.indexOf(id);
 
     if (idx > -1) {
@@ -39,11 +53,17 @@ function toggleSelection(id, type, el) {
         el.classList.add(`selected-${type}`);
     }
 
+    // Check if both sides have 3
     const btn = document.getElementById('run-btn');
     if(selectedM.length === 3 && selectedX.length === 3) {
         btn.disabled = false;
         btn.style.opacity = "1";
-        btn.classList.add('bg-blue-600');
+        btn.classList.add('bg-blue-600', 'cursor-pointer');
+        btn.classList.remove('bg-gray-600', 'opacity-50');
+    } else {
+        btn.disabled = true;
+        btn.classList.add('bg-gray-600', 'opacity-50');
+        btn.classList.remove('bg-blue-600', 'cursor-pointer');
     }
 }
 
@@ -52,54 +72,60 @@ function runLab() {
     document.getElementById('results-screen').classList.remove('hidden');
     
     const output = document.getElementById('data-output');
-    output.innerHTML = "<div><h4 class='text-blue-400 font-bold'>M Results</h4>" + 
-        selectedM.map(id => `<p class='text-sm mt-2'>• ${experiments.find(e => e.id===id).text}</p>`).join('') + "</div>";
-    output.innerHTML += "<div><h4 class='text-emerald-400 font-bold'>X Results</h4>" + 
-        selectedX.map(id => `<p class='text-sm mt-2'>• ${experiments.find(e => e.id===id).text}</p>`).join('') + "</div>";
+    
+    // Generate M Results
+    let mHtml = "<div><h4 class='text-blue-400 font-bold mb-2 border-b border-blue-900'>Results for Element M</h4>";
+    selectedM.forEach(id => {
+        const item = experimentsM.find(e => e.id === id);
+        mHtml += `<div class='bg-gray-800 p-3 rounded mb-2 text-sm'><span class='text-blue-300 font-bold'>${item.name}:</span> ${item.text}</div>`;
+    });
+    mHtml += "</div>";
+
+    // Generate X Results
+    let xHtml = "<div><h4 class='text-emerald-400 font-bold mb-2 border-b border-emerald-900'>Results for Element X</h4>";
+    selectedX.forEach(id => {
+        const item = experimentsX.find(e => e.id === id);
+        xHtml += `<div class='bg-gray-800 p-3 rounded mb-2 text-sm'><span class='text-emerald-300 font-bold'>${item.name}:</span> ${item.text}</div>`;
+    });
+    xHtml += "</div>";
+
+    output.innerHTML = mHtml + xHtml;
 }
 
 async function finalizeLab() {
     const student = JSON.parse(sessionStorage.getItem('activeStudent'));
     const assumptionText = document.getElementById('assumption').value;
     
-    if(!assumptionText) return alert("Write a CER below explaining your findings based on the data.");
+    if(!assumptionText) return alert("Please enter your assumptions.");
 
     const entry = {
         fName: student.fName,
         lName: student.lName,
         period: student.period,
-        mExps: selectedM.map(id => experiments.find(e => e.id === id).name),
-        xExps: selectedX.map(id => experiments.find(e => e.id === id).name),
+        mExps: selectedM.map(id => experimentsM.find(e => e.id === id).name),
+        xExps: selectedX.map(id => experimentsX.find(e => e.id === id).name),
         assumption: assumptionText
     };
 
-    // --- GOOGLE SHEETS INTEGRATION ---
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/u/5/home/projects/1iY52m1EHMcpUjp5Iu7SGJ8-TQblk7v4eYxg59gfvGrQBfwqCzNIYh1-h/edit'; // <--- GOOGLE SHEET WEB APP
-    
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx_WtPK1rEj8sx5_rKVnAaVVSJ_FIGRFEa_l3CQmeetVWB-CYzGcOajrGQo9h-1s6PjAA/exec'; // <--- UPDATE THIS AGAIN IF YOU RE-DEPLOYED
+
     try {
-        // Show loading state
         const btn = document.querySelector('button[onclick="finalizeLab()"]');
         btn.innerText = "Submitting...";
         btn.disabled = true;
 
         await fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors', // Required for Google Script Web Apps
+            mode: 'no-cors',
             cache: 'no-cache',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(entry)
         });
 
-        // Also save a local backup just in case
-        let logs = JSON.parse(localStorage.getItem('mx_results') || '[]');
-        logs.push(entry);
-        localStorage.setItem('mx_results', JSON.stringify(logs));
-
-        alert("Lab Submitted Successfully!");
+        alert("Lab Submitted Successfully! Redirecting to entry page...");
         window.location.href = 'index.html';
     } catch (error) {
-        console.error('Error!', error.message);
-        alert("Submission failed. Please check your internet connection.");
+        alert("Submission failed. Check your connection.");
         btn.innerText = "Submit to Backend";
         btn.disabled = false;
     }
@@ -111,6 +137,6 @@ function closeModal(id) { document.getElementById(id).classList.remove('active')
 function checkTeacher() {
     if(prompt("Access Code:") === "MXLabResults") {
         console.table(JSON.parse(localStorage.getItem('mx_results') || '[]'));
-        alert("Data printed to Console (F12)");
+        alert("Teacher data check enabled. View Console (F12).");
     }
 }
