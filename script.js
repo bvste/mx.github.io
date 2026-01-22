@@ -1,10 +1,10 @@
 const experiments = [
-    { id: 1, name: "Density Test", text: "Material sinks in water; 8.9g/cm3." },
-    { id: 2, name: "Acid Test", text: "Reacts slowly; releases H2 gas." },
+    { id: 1, name: "Hammer Test", text: "Material sinks in water; 8.9g/cm3." },
+    { id: 2, name: "Activities Series", text: "Reacts slowly; releases H2 gas." },
     { id: 3, name: "Conductivity", text: "Strong conductor of electricity." },
-    { id: 4, name: "Luster", text: "Highly reflective surface." },
-    { id: 5, name: "Heat Test", text: "Melt point is high; X turns to gas." },
-    { id: 6, name: "Magnetism", text: "Material shows no magnetic field." }
+    { id: 4, name: "Flame Test", text: "Highly reflective surface." },
+    { id: 5, name: "Heating Test", text: "Melt point is high; X turns to gas." },
+    { id: 6, name: "Water Test", text: "Material shows no magnetic field." }
 ];
 
 let selectedM = [];
