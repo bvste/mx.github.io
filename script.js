@@ -147,3 +147,20 @@ function checkTeacher() {
         alert("Teacher data check enabled. View Console (F12).");
     }
 }
+
+function resetSelections() {
+    selectedM = [];
+    selectedX = [];
+    
+    // This finds all cards and "turns off" their blue/green borders
+    document.querySelectorAll('.experiment-card').forEach(card => {
+        card.classList.remove('selected-m', 'selected-x');
+    });
+    
+    // Disable the run button again
+    const btn = document.getElementById('run-btn');
+    btn.disabled = true;
+    btn.style.opacity = "0.5";
+    btn.classList.remove('bg-blue-600');
+    btn.classList.add('bg-gray-600');
+}
