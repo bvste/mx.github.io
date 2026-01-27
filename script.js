@@ -1,10 +1,12 @@
 // Database of possible identities
 const metalIdentities = [
-    { name: "Zinc", hammer: "Flattens into a dull grey sheet.", acid: "Rapid bubbles; test tube feels hot.", luster: "Dull grey, becomes shiny when scratched." },
-    { name: "Nickel", hammer: "Extremely hard; slightly flattens.", acid: "Slow green bubbling observed.", luster: "High-polish silver sheen." },
-    { name: "Copper", hammer: "Very malleable; spreads easily.", acid: "No reaction with HCl.", luster: "Distinct reddish-orange metallic glow." },
-    { name: "Silver", hammer: "Thin sheets formed easily.", acid: "No reaction with HCl.", luster: "Brightest white-metallic luster." },
-    { name: "Aluminum", hammer: "Very light; flattens into foil.", acid: "Delayed but vigorous reaction.", luster: "Silvery-white, very lightweight." }
+    { name: "Zinc", hammer: "Sample flattens, bends slightly", activity: "Activity Series", melting: "Sample melts in 30 seconds", flame: "Pale green/ bluish green flame" },
+    { name: "Nickel", hammer: "Sample flattens, bends slightly", activity: "Activity Series", melting: "Sample melts in 5 minutes", flame: "Pale green/ bluish green flame" },
+    { name: "Copper", hammer: "Sample flattens, bends slightly", activity: "Activity Series", melting: "Sample melts in 5 minutes", flame: "Bluish green flame" },
+    { name: "Silver", hammer: "Sample flattens, bends slightly", activity: "Activity Series", melting: "Sample melts in 5 minutes", flame: "No Data" },
+    { name: "Aluminum", hammer: "Sample flattens, bends slightly", activity: "Activity Series", melting: "Sample melts in 5 minutes", flame: "White/silvery white flame" },
+    { name: "Iron", hammer: "Sample flattens, bends slightly", activity: "Activity Series", melting: "Sample melts in 5 minutes", flame: "Red flame" },
+    { name: "Magnesium", hammer: "Sample flattens, bends slightly", activity: "Activity Series", melting: "Sample melts in 5 minutes", flame: "Very blinding white light, white powder formed after" }
 ];
 
 const nonMetalIdentities = [
@@ -21,11 +23,11 @@ let activeX = nonMetalIdentities[Math.floor(Math.random() * nonMetalIdentities.l
 // List of available experiment types
 const experimentsM = [
     { id: 'hammer', name: "Hammer Test" },
-    { id: 'acid', name: "HCl Reactivity" },
-    { id: 'luster', name: "Luster/Buffing" },
-    { id: 'conduct', name: "Electrical Probe", static: "High conductivity detected (60+ MS/m)." },
-    { id: 'density', name: "Density Test", static: "Sample sinks rapidly in water." },
-    { id: 'magnet', name: "Magnetism", static: "No magnetic attraction detected." }
+    { id: 'activity', name: "Activity Testing" },
+    { id: 'melting', name: "Crucible + Matches" },
+    { id: 'conduct', name: "Conductivity Test", static: "Red and Green lights shine brightly" },
+    { id: 'water', name: "Water Submerging", static: "Sample sinks in water and does not react." },
+    { id: 'flame', name: "Flame Test"}
 ];
 
 const experimentsX = [
