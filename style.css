@@ -41,3 +41,36 @@ body { background-color: var(--lab-bg); font-family: 'Inter', sans-serif; color:
     color: #f3f4f6;
     border-color: #6b7280;
 }
+
+/* Base Card Style */
+.experiment-card {
+    cursor: pointer;
+    padding: 1.25rem;
+    border-radius: 0.75rem;
+    background: #374151;
+    border: 2px solid transparent;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Hover Effect - Subtle glow and lift */
+.experiment-card:hover {
+    transform: translateY(-2px);
+    background: #4b5563;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    border-color: #4b5563;
+}
+
+/* Selected States */
+.selected-m { 
+    border-color: #3b82f6 !important; 
+    background: rgba(59, 130, 246, 0.2) !important;
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+}
+
+.selected-x { 
+    border-color: #10b981 !important; 
+    background: rgba(16, 185, 129, 0.2) !important;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+}
