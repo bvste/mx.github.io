@@ -38,10 +38,28 @@
         <button onclick="closeModal('mx-modal')" class="w-full bg-blue-600 mt-6 py-2 rounded-lg">Close</button>
     </div></div>
 
-    <div id="ack-modal" class="modal"><div class="bg-gray-800 p-8 rounded-xl">
-        <p>Developed by Doyoon Kim</p>
-        <button onclick="closeModal('ack-modal')" class="w-full bg-gray-700 mt-6 py-2 rounded-lg">Return</button>
-    </div></div>
+    <div id="ack-modal" class="hidden-modal fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-gray-800 border border-gray-600 w-full max-w-md rounded-2xl shadow-2xl p-8 transform transition-all scale-100">
+            <div class="flex justify-between items-center border-b border-gray-700 pb-4 mb-6">
+                <h2 class="text-2xl font-bold text-blue-400">Project Acknowledgements</h2>
+                <button onclick="toggleModal(false)" class="text-gray-400 hover:text-white text-3xl">&times;</button>
+            </div>
+            <div class="space-y-6">
+                <div>
+                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Development</h4>
+                    <ul class="space-y-3">
+                        <li>
+                             <p class="text-blue-300 font-medium">Doyoon Kim</p>
+                            <a href="mailto:dyoonkim07@gmail.com" class="text-blue-400 hover:underline">Contact: dyoonkim07@gmail.com</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="pt-6 border-t border-gray-700">
+                    <p class="text-[11px] text-gray-500 leading-relaxed italic">
+                        This sandbox was designed as an interactive tool for the MX Lab. This website is open sourced on GitHub! Feel free to send in any bug reports or suggestions as issues or email dyoonkim07@gmail.com. Special thanks to the open-source community for Tailwind CSS and MathJax.
+                    </p>
+                </div>
+            </div>
 
 <button onclick="checkTeacher()" class="teacher-btn">
     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
